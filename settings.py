@@ -1,8 +1,9 @@
-from termcolor import colored
+SCREEN_WIDTH = 80
+SCREEN_HEIGHT = 50
+MAP_WIDTH = 80
+MAP_HEIGHT = 50
 
 
-BOARD_WIDTH = 100
-BOARD_HEIGHT = 30
-PLAYER_ICON = colored('Q', 'blue')
+PLAYER_ICON = 'Q'
 PLAYER_START_X = 3
 PLAYER_START_Y = 5

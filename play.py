@@ -1,27 +1,26 @@
-import engine
-import ui
-import util
 import settings
+from engine import Engine
+from entity import Entity
+from game_map import GameMap
+from util import EventHandler
+from ui import RunWindowScreen
 
 
 def play_game():
 
-    player = {'player_icon': settings.PLAYER_ICON, 'position_x': settings.PLAYER_START_X, 'position_y': settings.PLAYER_START_Y}
-    board = ui.create_board(settings.BOARD_WIDTH, settings.BOARD_HEIGHT)
+    event_handler = EventHandler() # an instance of EventHandler class. Use it to receive events and process them
 
-    is_running = True
+    # initialize player         x                   y                       color
+    player = Entity(settings.PLAYER_START_X, settings.PLAYER_START_Y, settings.PLAYER_ICON, (0, 155, 155))
 
-    while is_running:
+    npc = Entity(20, 20, "N", (255, 255, 0))
 
-        board = engine.put_player_on_board(board, player)
-        ui.display_board(board)
+    entities = {npc, player}
 
-        key = util.get_move(player, board)
+    game_map = GameMap(settings.MAP_WIDTH, settings.MAP_HEIGHT)
 
-        if key == 'q':
-            is_running = False
-        if key == 'p':
-            print('Heeeeeeeeloooooooooooo')
+    engine = Engine(entities=entities, event_handler=event_handler, game_map=game_map, player=player)
 
-        else:
-            continue
+    RunWindowScreen(engine).run_window_screen()
+
+

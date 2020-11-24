@@ -1,69 +1,32 @@
-import sys
-import os
+from typing import Optional
 
+import tcod.event
 
-def key_pressed():
-    try:
-        import tty, termios
-    except ImportError:
-        try:
-            # probably Windows
-            import msvcrt
-        except ImportError:
-            # FIXME what to do on other platforms?
-            raise ImportError('getch not available')
-        else:
-            key = msvcrt.getch().decode('utf-8')
-            return key
-    else:
-        fd = sys.stdin.fileno()
-        old_settings = termios.tcgetattr(fd)
-        try:
-            tty.setraw(fd)
-            ch = sys.stdin.read(1)
-        finally:
-            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-        return ch
+from actions import Action
 
 
 
-def get_move(player, board):
-
-    key = key_pressed()
-
-    if key == 'w':
-        if player['position_y'] == 2:
-            pass
-        else:
-            player['position_y'] -= 1
-
-    elif key == 's':
-        if player['position_y'] == len(board) - 1:
-            pass
-        else:
-            player['position_y'] += 1
-
-    elif key == 'a':
-        if player['position_x'] == 2:
-            pass
-        else:
-            player['position_x'] -= 1
-
-    elif key == 'd':
-        if player['position_x'] == len(board[0]) - 1:
-            pass
-        else:
-            player['position_x'] += 1
-    else:
-        pass
-    clear_screen()
-    return key
+class EventHandler(tcod.event.EventDispatch[Action]):
+    def ev_quit(self, event: tcod.event.Quit) -> Optional[Action]:
+        raise SystemExit()
 
 
+    def ev_keydown(self, event: tcod.event.KeyDown) -> Optional[Action]:
+        action: Optional[Action] = None
 
+        key = event.sym  #pressed key down
 
-def clear_screen():
-    if os.name == "nt":
-        os.system('cls')
-    else:
-        os.system('clear')
+        # key bindings
+        if key == tcod.event.K_w:
+            action = Action(direction_x=0, direction_y=-1)
+        elif key == tcod.event.K_s:
+            action = Action(direction_x=0, direction_y=1)
+        elif key == tcod.event.K_a:
+            action = Action(direction_x=-1, direction_y=0)
+        elif key == tcod.event.K_d:
+            action = Action(direction_x=1, direction_y=0)
+
+        elif key == tcod.event.K_ESCAPE:
+            raise SystemExit
+        # No valid key was pressed
+        return action
