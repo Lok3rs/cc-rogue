@@ -1,9 +1,6 @@
 from typing import Optional
-
 import tcod.event
-
 from actions import Action
-
 
 
 class EventHandler(tcod.event.EventDispatch[Action]):

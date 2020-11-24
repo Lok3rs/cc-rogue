@@ -3,7 +3,7 @@ from engine import Engine
 from entity import Entity
 from game_map import GameMap
 from util import EventHandler
-from ui import RunWindowScreen
+from ui import GameScreen
 
 
 def play_game():
@@ -21,6 +21,6 @@ def play_game():
 
     engine = Engine(entities=entities, event_handler=event_handler, game_map=game_map, player=player)
 
-    RunWindowScreen(engine).run_window_screen()
+    GameScreen(engine).run_window_screen()
 
 

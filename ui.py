@@ -2,7 +2,7 @@ import tcod
 import settings
 
 
-class RunWindowScreen():
+class GameScreen():
 
     def __init__(self, engine):
         self.screen_width = settings.SCREEN_WIDTH
