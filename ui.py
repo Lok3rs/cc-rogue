@@ -1,8 +1,17 @@
-def display_board(board):
-    '''
-    Displays complete game board on the screen
+def create_board(width, height):
 
-    Returns:
-    Nothing
-    '''
-    pass
+    board = [['-'] * width]
+
+    for row in range(height):
+        board.append(['|'] + (width-2) * [' '] + ['|'])
+
+    board.append(['-'] * width)
+
+    return board
+
+
+def display_board(board):
+    for row in board:
+        for cell in row:
+            print(cell, end='')
+        print()

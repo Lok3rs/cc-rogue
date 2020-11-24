@@ -1,6 +1,5 @@
 import sys
 import os
-import tcod
 
 
 def key_pressed():
@@ -25,6 +24,42 @@ def key_pressed():
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
         return ch
+
+
+
+def get_move(player, board):
+
+    key = key_pressed()
+
+    if key == 'w':
+        if player['position_y'] == 2:
+            pass
+        else:
+            player['position_y'] -= 1
+
+    elif key == 's':
+        if player['position_y'] == len(board) - 1:
+            pass
+        else:
+            player['position_y'] += 1
+
+    elif key == 'a':
+        if player['position_x'] == 2:
+            pass
+        else:
+            player['position_x'] -= 1
+
+    elif key == 'd':
+        if player['position_x'] == len(board[0]) - 1:
+            pass
+        else:
+            player['position_x'] += 1
+    else:
+        pass
+    clear_screen()
+    return key
+
+
 
 
 def clear_screen():
