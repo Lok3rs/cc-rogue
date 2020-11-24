@@ -18,9 +18,10 @@ def play_game():
     entities = {npc, player}
 
     game_map = GameMap(settings.MAP_WIDTH, settings.MAP_HEIGHT)
-
     engine = Engine(entities=entities, event_handler=event_handler, game_map=game_map, player=player)
 
-    GameScreen(engine).run_window_screen()
+    game = GameScreen()
+    game.run_window_screen(engine)
+
 
 

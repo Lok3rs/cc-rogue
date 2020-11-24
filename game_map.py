@@ -18,7 +18,8 @@ class GameMap:
 
     def render(self, console: Console) -> None:
         """
-        Using the Console tcod class’s tiles_rgb method, we can quickly render the entire map. This method proves much faster than using the console.print method that we use for the individual entities.
+        Using the Console tcod class’s tiles_rgb method, we can quickly render the entire map.
+        This method proves much faster than using the console.print method that we use for the individual entities.
 
         """
         console.tiles_rgb[0:self.width, 0:self.height] = self.tiles["dark"]
