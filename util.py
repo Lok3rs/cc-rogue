@@ -15,13 +15,17 @@ class EventHandler(tcod.event.EventDispatch[Action]):
 
         # key bindings
         if key == tcod.event.K_w:
-            action = Action(direction_x=0, direction_y=-1)
+            action = Action(direction_x=0, direction_y=-1, type="move")
         elif key == tcod.event.K_s:
-            action = Action(direction_x=0, direction_y=1)
+            action = Action(direction_x=0, direction_y=1, type="move")
         elif key == tcod.event.K_a:
-            action = Action(direction_x=-1, direction_y=0)
+            action = Action(direction_x=-1, direction_y=0, type="move")
         elif key == tcod.event.K_d:
-            action = Action(direction_x=1, direction_y=0)
+            action = Action(direction_x=1, direction_y=0, type="move")
+        elif key == tcod.event.K_g:
+            action = Action(direction_x=0, direction_y=0, type="grab")
+        elif key == tcod.event.K_i:
+            action = Action(direction_x=0, direction_y=0, type="inventory")
 
         elif key == tcod.event.K_ESCAPE:
             raise SystemExit

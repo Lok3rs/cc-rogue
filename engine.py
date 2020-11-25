@@ -3,9 +3,9 @@ from typing import Set, Iterable, Any
 from tcod.context import Context
 from tcod.console import Console
 
-from entity import Entity
 from game_map import GameMap
 from util import EventHandler
+from components import Entity
 
 
 class Engine:
@@ -21,7 +21,6 @@ class Engine:
         self.event_handler = event_handler
         self.game_map = game_map
         self.player = player
-
 
     def handle_events(self, events: Iterable[Any]) -> None:
         """
@@ -39,7 +38,6 @@ class Engine:
                 continue
 
             action.perform(self, self.player)
-
 
     def render(self, console: Console, context: Context) -> None:
         """
