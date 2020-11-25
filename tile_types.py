@@ -35,7 +35,7 @@ def new_tile( *, walkable: int, transparent: int, dark: Tuple[int, Tuple[int, in
     return np.array((walkable, transparent, dark), dtype=tile_dt)
 
                                                      # chr -  foreground       background
-floor = new_tile(walkable=True, transparent=True, dark=(ord("."), (24, 24, 24), (0, 0, 0)),)
+floor = new_tile(walkable=False, transparent=True, dark=(ord("."), (24, 24, 24), (5, 5, 5)))
 
-wall = new_tile(walkable=False, transparent=False, dark=(ord(" "), (255, 255, 255), (0, 0, 100)),)
+dungeon = new_tile(walkable=True, transparent=False, dark=(ord(" "), (0, 0, 0), (153,153,0)))
 

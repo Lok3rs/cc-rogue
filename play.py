@@ -10,18 +10,18 @@ def play_game():
 
     event_handler = EventHandler() # an instance of EventHandler class. Use it to receive events and process them
 
-    # initialize player         x                   y                       color
-    player = Entity(settings.PLAYER_START_X, settings.PLAYER_START_Y, settings.PLAYER_ICON, (0, 155, 155))
 
-    npc = Entity(20, 20, "N", (255, 255, 0))
+    player = Entity(settings.PLAYER['START_X'], settings.PLAYER['START_Y'], settings.PLAYER['ICON'], settings.PLAYER['COLOR'])
 
-    entities = {npc, player}
+    npc = Entity(settings.NPC['START_X'], settings.NPC['START_Y'], settings.NPC['ICON'], settings.NPC['COLOR'])
 
-    game_map = GameMap(settings.MAP_WIDTH, settings.MAP_HEIGHT)
-    engine = Engine(entities=entities, event_handler=event_handler, game_map=game_map, player=player)
+    gate = Entity(settings.GATE_MAP_A['START_X'], settings.GATE_MAP_A['START_Y'], settings.GATE_MAP_A['ICON'], settings.GATE_MAP_A['COLOR'])
 
+    entities = {npc, player, gate}
+
+    map_1 = GameMap(settings.MAP_A).generate_map
+    engine = Engine(entities=entities, event_handler=event_handler, game_map=map_1, player=player)
     game = GameScreen()
     game.run_window_screen(engine)
-
 
 

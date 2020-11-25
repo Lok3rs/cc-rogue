@@ -5,8 +5,8 @@ import settings
 class GameScreen:
 
     def __init__(self):
-        self.screen_width = settings.SCREEN_WIDTH
-        self.screen_height = settings.SCREEN_HEIGHT
+        self.screen_width = settings.SCREEN['WIDTH']
+        self.screen_height = settings.SCREEN['HEIGHT']
         self.tileset = tcod.tileset.load_tilesheet("dejavu10x10_gs_tc.png", 32, 8, tcod.tileset.CHARMAP_TCOD) # Load the font, a 32 by 8 tile font  - tileset is a collection of graphical tiles.
 
 
@@ -25,3 +25,5 @@ class GameScreen:
                 engine.render(console=root_console, context=context)
                 events = tcod.event.wait()
                 engine.handle_events(events)
+
+
