@@ -19,10 +19,13 @@ class Action:
             engine.logs.clear()
             dest_x = player.x + self.direction_x
             dest_y = player.y + self.direction_y
+            print(f"move: {dest_x}, {dest_y}")
 
             if not engine.game_map.tiles["walkable"][dest_x, dest_y]:
+                print('Wall blocked...')
                 return None  # Destination is blocked by a tile.
             if engine.game_map.get_blocking_entity(engine.entities, dest_x, dest_y):
+                print('Entity blocked...')
                 return None
 
             player.move(self.direction_x, self.direction_y)
