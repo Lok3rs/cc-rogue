@@ -14,14 +14,12 @@ class GameMap:
         self.tiles = np.full((self.width, self.height), fill_value=tile_types.floor, order="F")
         self.dict_of_elements = dict_of_elements
 
-
     def render(self, console: Console) -> None:
         """
         Using the Console tcod class’s tiles_rgb method, we can quickly render the entire map. This method proves much faster than using the console.print method that we use for the individual entities.
 
         """
         console.tiles_rgb[0:self.width, 0:self.height] = self.tiles["dark"]
-
 
     @property
     def generate_map(self):
@@ -37,15 +35,12 @@ class DungeonsAndChambers:
         self.y1 = y
         self.x2 = x + width
         self.y2 = y + height
-
+        self.range_width = slice(self.x1, self.x2)
+        self.range_height = slice(self.y1, self.y2)
 
     @property
     def get_size_of_element(self) -> Tuple[slice, slice]:
-        self.range_width = slice(self.x1, self.x2)
-        self.range_height = slice(self.y1, self.y2)
         return self.range_width, self.range_height
-                        # (x1, x2), (y1, y2)
-                        # (0:33), (10:15)
-                        # width, height
-
-
+        # (x1, x2), (y1, y2)
+        # (0:33), (10:15)
+        # width, height

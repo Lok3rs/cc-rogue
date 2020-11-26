@@ -4,6 +4,7 @@ from entity import Entity
 from game_map import GameMap
 from util import EventHandler
 from ui import GameScreen
+import maps
 
 
 def play_game():
@@ -19,7 +20,7 @@ def play_game():
 
     entities = {npc, player, gate}
 
-    map_1 = GameMap(settings.MAP_A).generate_map
+    map_1 = GameMap(maps.MAP_A).generate_map
     engine = Engine(entities=entities, event_handler=event_handler, game_map=map_1, player=player)
     game = GameScreen()
     game.run_window_screen(engine)
