@@ -8,21 +8,22 @@ import maps
 
 
 def play_game():
+    event_handler = EventHandler()  # an instance of EventHandler class. Use it to receive events and process them
 
-    event_handler = EventHandler() # an instance of EventHandler class. Use it to receive events and process them
+    map_A = GameMap(maps.MAP_A).generate_map
 
+    player_map_B = Entity(maps.START_MAP_B['START_X'], maps.START_MAP_B['START_Y'], settings.PLAYER['ICON'], settings.PLAYER['COLOR'])
+    npc_map_B = Entity(maps.NPC_MAP_B['START_X'], maps.NPC_MAP_B['START_Y'], maps.NPC_MAP_B['ICON'], maps.NPC_MAP_B['COLOR'])
+    gate_map_B = Entity(maps.GATE_MAP_B['START_X'], maps.GATE_MAP_B['START_Y'], maps.GATE_MAP_A['ICON'], maps.GATE_MAP_B['COLOR'])
+    entities_map_B = {npc_map_B, player_map_B, gate_map_B}
+    map_B = GameMap(maps.MAP_B).generate_map
 
-    player = Entity(settings.PLAYER['START_X'], settings.PLAYER['START_Y'], settings.PLAYER['ICON'], settings.PLAYER['COLOR'])
+    player_map_C = Entity(maps.START_MAP_C['START_X'], maps.START_MAP_C['START_Y'], settings.PLAYER['ICON'], settings.PLAYER['COLOR'])
+    npc_map_C = Entity(maps.NPC_MAP_C['START_X'], maps.NPC_MAP_C['START_Y'], maps.NPC_MAP_C['ICON'], maps.NPC_MAP_C['COLOR'])
+    entities_map_C = {npc_map_C, player_map_C}
 
-    npc = Entity(settings.NPC['START_X'], settings.NPC['START_Y'], settings.NPC['ICON'], settings.NPC['COLOR'])
+    map_C = GameMap(maps.MAP_C).generate_map
 
-    gate = Entity(settings.GATE_MAP_A['START_X'], settings.GATE_MAP_A['START_Y'], settings.GATE_MAP_A['ICON'], settings.GATE_MAP_A['COLOR'])
-
-    entities = {npc, player, gate}
-
-    map_1 = GameMap(maps.MAP_A).generate_map
-    engine = Engine(entities=entities, event_handler=event_handler, game_map=map_1, player=player)
+    engine = Engine(entities=entities_map_C, event_handler=event_handler, game_map=map_C, player=player_map_C)
     game = GameScreen()
     game.run_window_screen(engine)
-
-

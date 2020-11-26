@@ -17,6 +17,6 @@ class Action:
         dest_y = entity.y + self.direction_y
 
         if not engine.game_map.tiles["walkable"][dest_x, dest_y]:
-            return  None    # Destination is blocked by a tile.
+            return None  # Destination is blocked by a tile.
 
         entity.move(self.direction_x, self.direction_y)

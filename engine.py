@@ -22,7 +22,6 @@ class Engine:
         self.game_map = game_map
         self.player = player
 
-
     def handle_events(self, events: Iterable[Any]) -> None:
         """
          Pass the events to it so it can iterate through them, and it uses self.event_handler to handle the events
@@ -39,7 +38,6 @@ class Engine:
                 continue
 
             action.perform(self, self.player)
-
 
     def render(self, console: Console, context: Context) -> None:
         """
