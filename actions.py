@@ -22,6 +22,8 @@ class Action:
 
             if not engine.game_map.tiles["walkable"][dest_x, dest_y]:
                 return None  # Destination is blocked by a tile.
+            if engine.game_map.get_blocking_entity(engine.entities, dest_x, dest_y):
+                return None
 
             player.move(self.direction_x, self.direction_y)
         elif self.type == "grab":
