@@ -7,6 +7,7 @@ class Entity:
     """
 
     def __init__(self, x: int, y: int, character: str, color: Tuple[int, int, int]):
+        self.inventory = {}
         self.x = x
         self.y = y
         self.character = character

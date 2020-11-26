@@ -7,7 +7,8 @@ class GameScreen:
     def __init__(self):
         self.screen_width = settings.SCREEN['WIDTH']
         self.screen_height = settings.SCREEN['HEIGHT']
-        self.tileset = tcod.tileset.load_tilesheet("dejavu10x10_gs_tc.png", 32, 8, tcod.tileset.CHARMAP_TCOD)  # Load the font, a 32 by 8 tile font  - tileset is a collection of graphical tiles.
+        # Load the font, a 32 by 8 tile font  - tileset is a collection of graphical tiles.
+        self.tileset = tcod.tileset.load_tilesheet("dejavu10x10_gs_tc.png", 32, 8, tcod.tileset.CHARMAP_TCOD)
 
     def run_window_screen(self, engine):
         with tcod.context.new_terminal(  # New window for a console of size columns×rows

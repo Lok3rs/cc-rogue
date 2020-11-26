@@ -2,10 +2,12 @@ from typing import Set, Iterable, Any
 
 from tcod.context import Context
 from tcod.console import Console
+import tcod
+import settings
 
-from entity import Entity
 from game_map import GameMap
 from util import EventHandler
+from components import Entity
 
 
 class Engine:
@@ -21,6 +23,7 @@ class Engine:
         self.event_handler = event_handler
         self.game_map = game_map
         self.player = player
+        self.logs = []
 
     def handle_events(self, events: Iterable[Any]) -> None:
         """
@@ -48,6 +51,15 @@ class Engine:
         for entity in self.entities:
             console.print(entity.x, entity.y, entity.character, fg=entity.color)
 
-        context.present(console)
+        # Draw the player's HP bar.
+        tcod.console_print_ex(console, 8, 1, tcod.BKGND_NONE, tcod.CENTER, '{0}: {1}/{2}'.format("HP", self.player.hp, self.player.max_hp))
 
+        y = settings.SCREEN["HEIGHT"] - 1
+        i = 1
+        for message in self.logs[::-1]:
+            tcod.console_print_ex(console, 1, y - i, tcod.BKGND_NONE, tcod.LEFT, message)
+            i += 1
+            if i > 4: break
+
+        context.present(console)
         console.clear()
