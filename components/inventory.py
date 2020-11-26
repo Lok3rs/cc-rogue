@@ -13,9 +13,9 @@ class Inventory:
                 self.items[item.type].add(item)
             else:
                 self.items[item.type] = {item}
-            print(f"You pick up the {item.name}")
+            return f"You pick up the {item.name}"
         else:
-            print("Your inventory is full")
+            return "Your inventory is full"
 
     def show(self):
         if (len(self.items) > 0):

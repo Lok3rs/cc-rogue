@@ -16,6 +16,7 @@ class Action:
     def perform(self, engine: Engine, entity: Entity) -> None:
 
         if self.type == "move":
+            engine.logs.clear()
             dest_x = entity.x + self.direction_x
             dest_y = entity.y + self.direction_y
 
@@ -26,10 +27,19 @@ class Action:
         elif self.type == "grab":
             for e in engine.entities:
                 if isinstance(e, Item) and entity.x == e.x and entity.y == e.y:
-                    entity.inventory.add(e)
+                    messsage = entity.inventory.add(e)
                     engine.entities.remove(e)
+                    engine.logs.append(messsage)
                     break
             else:
-                print("There is nothing to pick up here")
+                engine.logs.append("There is nothing to pick up here")
+        elif self.type == "check":
+            for e in engine.entities:
+                if isinstance(e, Item) and entity.x == e.x and entity.y == e.y:
+                    article = "an" if e.name[0] in "aeiou" else "a"
+                    engine.logs.append(f"This is {article} {e.name}")
+                    break
+            else:
+                engine.logs.append("There is nothing interesting here")
         elif self.type == "inventory":
             entity.inventory.show()

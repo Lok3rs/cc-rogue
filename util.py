@@ -24,6 +24,8 @@ class EventHandler(tcod.event.EventDispatch[Action]):
             action = Action(direction_x=1, direction_y=0, type="move")
         elif key == tcod.event.K_g:
             action = Action(direction_x=0, direction_y=0, type="grab")
+        elif key == tcod.event.K_c:
+            action = Action(direction_x=0, direction_y=0, type="check")
         elif key == tcod.event.K_i:
             action = Action(direction_x=0, direction_y=0, type="inventory")
 

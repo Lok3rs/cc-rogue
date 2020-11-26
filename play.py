@@ -17,7 +17,7 @@ def play_game():
 
     gate = Entity(settings.GATE_MAP_A['START_X'], settings.GATE_MAP_A['START_Y'], settings.GATE_MAP_A['ICON'], settings.GATE_MAP_A['COLOR'])
 
-    key = Item(randint(25, 34), randint(1, 5), "key")  # room_3
+    key = Item(randint(25, 34), randint(1, 5), "key", "rusty key")  # room_3
 
     entities = {npc, player, gate, key}
 
