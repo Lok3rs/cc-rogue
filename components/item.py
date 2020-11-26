@@ -3,6 +3,8 @@ from .entity import Entity
 
 class Item(Entity):
     def __init__(self, x, y, type, name):
+        character = ""
+        color = (0, 0, 0)
         if type == "key":
             character = "k"
             color = (249, 215, 28)
