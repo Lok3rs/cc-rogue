@@ -4,7 +4,7 @@ from typing import Tuple
 
 class Monster(Entity):
 
-    def __init__(self, x: int, y: int, icon: str, name: str, max_hp: int, loot: list, color: Tuple[int, int, int], block_movement: bool = True):
+    def __init__(self, x: int, y: int, icon: str, name: str, max_hp: int, loot: list, color: Tuple[int, int, int], attack: int, block_movement: bool = True):
         self.x = x
         self.y = y
         self.icon = icon

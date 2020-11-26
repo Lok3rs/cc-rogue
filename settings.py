@@ -17,7 +17,8 @@ ORC ={
        "name": "orc",
        "loot": ["gold", "sword"],
        "max_hp": 90,
-       "color" : (0, 255, 0)
+       "color" : (0, 255, 0),
+       "attack": 10
 }
 
 TROLL = {
@@ -25,7 +26,8 @@ TROLL = {
        "name": "troll",
        "loot": ["gold", "meet"],
        "max_hp": 60,
-       "color" : (255, 255, 0)
+       "color" : (255, 255, 0),
+       "attack": 7
 }
 
 DRAGON = {
@@ -33,6 +35,7 @@ DRAGON = {
        "name": "dragon",
        "loot": ["gold", "armor", "axe", "map"],
        "max_hp": 400,
-       "color": (120, 255, 70)
+       "color": (120, 255, 70),
+       "attack": 20
 }
 
