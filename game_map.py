@@ -1,18 +1,24 @@
+from __future__ import annotations
+
 import numpy as np
 from tcod.console import Console
 import settings
-from typing import Tuple
+from typing import Tuple, Iterable, Optional, TYPE_CHECKING
 
 import tile_types
+
+if TYPE_CHECKING:
+    from components.entity import Entity
 
 
 class GameMap:
 
-    def __init__(self, dict_of_elements):
+    def __init__(self, dict_of_elements: dict, entities: Iterable[Entity] = ()):
         self.width = settings.MAP['WIDTH']
         self.height = settings.MAP['HEIGHT']
         self.tiles = np.full((self.width, self.height), fill_value=tile_types.floor, order="F")
         self.dict_of_elements = dict_of_elements
+        self.entities = entities
 
     def render(self, console: Console) -> None:
         """
@@ -27,6 +33,12 @@ class GameMap:
         for element in self.dict_of_elements:
             map.tiles[self.dict_of_elements[element]] = tile_types.dungeon
         return map
+
+    def get_blocking_entity(self, x: int, y: int) -> Optional[Entity]:
+        for entity in self.entities:
+            if entity.block_movement and entity.x == x and entity.y == y:
+                return entity
+        return None
 
 
 class DungeonsAndChambers:
