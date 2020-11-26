@@ -22,7 +22,7 @@ class Action:
 
             if not engine.game_map.tiles["walkable"][dest_x, dest_y]:
                 return None  # Destination is blocked by a tile.
-            if engine.game_map.get_blocking_entity(dest_x, dest_y):
+            if engine.game_map.get_blocking_entity(engine.entities, dest_x, dest_y):
                 return None
 
             entity.move(self.direction_x, self.direction_y)
