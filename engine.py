@@ -7,11 +7,11 @@ import settings
 
 from game_map import GameMap
 from util import EventHandler
-from components import Entity
+from components import Entity, Player
 
 
 class Engine:
-    def __init__(self, entities: Set[Entity], event_handler: EventHandler, game_map: GameMap, player: Entity):
+    def __init__(self, entities: Set[Entity], event_handler: EventHandler, game_map: GameMap, player: Player):
         """
         Responsible of drawing the map and entities, as well as handling the player’s input.
 
@@ -63,8 +63,8 @@ class Engine:
             tcod.console_set_color_control(tcod.COLCTRL_1, tcod.yellow, tcod.black)
             x = 1
             for i in range(len(message)):
-                if (message[i] in "1234567890" and message[i-1] == "[" and message[i+1] == "]"):
-                    tcod.console_print(console, x, y - messages_count, f"%c{message[i]}%c"%(tcod.COLCTRL_1, tcod.COLCTRL_1))
+                if (message[i] in "1234567890" and message[i - 1] == "[" and message[i + 1] == "]"):
+                    tcod.console_print(console, x, y - messages_count, f"%c{message[i]}%c" % (tcod.COLCTRL_1, tcod.COLCTRL_1))
                 else:
                     tcod.console_print(console, x, y - messages_count, message[i])
                 x += 1
