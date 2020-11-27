@@ -25,11 +25,16 @@ class Action:
             if not engine.game_map.tiles["walkable"][dest_x, dest_y]:
                 print('Wall blocked...')
                 return None  # Destination is blocked by a tile.
+
             if engine.game_map.get_blocking_entity(engine.entities, dest_x, dest_y):
                 print('Entity blocked...')
                 return None
-
             player.move(self.direction_x, self.direction_y)
+
+<<<<<<< HEAD
+            player.move(self.direction_x, self.direction_y)
+=======
+>>>>>>> 2911743886ae09d351aa459ead8b0a29403fc795
         elif self.type == "grab":
             engine.is_inventory_shown = False
             for single_entity in engine.entities:
@@ -40,6 +45,7 @@ class Action:
                     break
             else:
                 engine.logs.append("There is nothing to pick up here")
+
         elif self.type == "check":
             engine.is_inventory_shown = False
             for single_entity in engine.entities:
@@ -49,6 +55,7 @@ class Action:
                     break
             else:
                 engine.logs.append("There is nothing interesting here")
+
         elif self.type == "inventory":
             engine.is_inventory_shown = True
             engine.logs.clear()
@@ -63,6 +70,10 @@ class Action:
                     engine.logs.append(f"{item_type}: {items_by_type_str}")
             else:
                 engine.logs.append("Your inventory is empty")
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2911743886ae09d351aa459ead8b0a29403fc795
         elif self.type in "1234567890" and engine.is_inventory_shown is True:
             engine.logs.clear()
             
