@@ -3,24 +3,60 @@ from components.entity import Entity
 from components.item import Item
 from components.monsters import Monster
 from components.player import Player
-from settings import ORC, TROLL, DRAGON
 
 from random import randint
 
 
-START_MAP_A = {
-    'START_X': 0,
-    'START_Y': 5,
+
+ITEMS = {
+    "key": {"icon": "k", "color": (249, 215, 28)},
+    "weapon": {"icon": "w", "color": (0, 106, 212)},
+    "armor": {"icon": "a", "color": (0, 128, 0)},
+    "food": {"icon": "+", "color": (227, 38, 54)}
 }
 
-GATE_MAP_A = {'ICON': """
+
+ORC = {
+       "icon": "o",
+       "name": "orc",
+       "loot": ["gold", "sword"],
+       "max_hp": 90,
+       "color": (0, 255, 0),
+       "attack": 10
+}
+
+TROLL = {
+       "icon": "t",
+       "name": "troll",
+       "loot": ["gold", "meet"],
+       "max_hp": 60,
+       "color": (255, 255, 0),
+       "attack": 7
+}
+
+DRAGON = {
+       "icon": "D",
+       "name": "dragon",
+       "loot": ["gold", "armor", "axe", "map"],
+       "max_hp": 400,
+       "color": (120, 255, 70),
+       "attack": 20
+}
+
+START_MAP_A = {
+    'start_x': 0,
+    'start_y': 5,
+}
+
+GATE_MAP_A = {
+    'icon': """
 GA
 TE
 """,
-              'START_X': 75,
-              'START_Y': 35,
-              'COLOR': (255, 0, 0)
-              }
+    'start_x': 75,
+    'start_y': 35,
+    'color': (255, 0, 0)
+}
 
 MAP_A = {
     'room_1': DungeonsAndChambers(x=10, y=5, width=10, height=10).get_size_of_element,
@@ -62,24 +98,27 @@ MAP_A = {
 }
 
 START_MAP_B = {
-    'START_X': 0,
-    'START_Y': 35,
+    'start_x': 0,
+    'start_y': 35,
 }
 
-GATE_MAP_B = {'ICON': """
+GATE_MAP_B = {
+    'icon': """
 GA
 TE
 """,
-              'START_X': 77,
-              'START_Y': 35,
-              'COLOR': (255, 0, 0)
-              }
+    'start_x': 77,
+    'start_y': 35,
+    'color': (255, 0, 0)
+}
 
-NPC_MAP_B = {'ICON': 'N',
-             'START_X': 15,
-             'START_Y': 35,
-             'COLOR': (255, 0, 0)
-             }
+NPC_MAP_B = {
+
+    'icon': 'N',
+    'start_x': 15,
+    'start_y': 35,
+    'color': (255, 0, 0)
+}
 
 MAP_B_CHAMBERS = {
     'room_1': DungeonsAndChambers(x=10, y=30, width=10, height=10).get_size_of_element,
@@ -96,7 +135,7 @@ MAP_B_CHAMBERS = {
     'dungeon_0': DungeonsAndChambers(x=0, y=35, width=10, height=1).get_size_of_element,
     'dungeon_1': DungeonsAndChambers(x=13, y=5, width=12, height=1).get_size_of_element,
     'dungeon_2': DungeonsAndChambers(x=20, y=35, width=15, height=1).get_size_of_element,
-    'dungeon_4': DungeonsAndChambers(x=6, y=13, width=1, height=29).get_size_of_element,
+    'dungeon_4': DungeonsAndChambers(x=6, y=13, width=1, height=30).get_size_of_element,
     'dungeon_5': DungeonsAndChambers(x=15, y=25, width=1, height=5).get_size_of_element,
     'dungeon_6': DungeonsAndChambers(x=17, y=6, width=1, height=14).get_size_of_element,
     'dungeon_7': DungeonsAndChambers(x=17, y=9, width=33, height=1).get_size_of_element,
@@ -108,6 +147,8 @@ MAP_B_CHAMBERS = {
     'dungeon_13': DungeonsAndChambers(x=48, y=27, width=1, height=6).get_size_of_element,
     'dungeon_14': DungeonsAndChambers(x=70, y=20, width=1, height=10).get_size_of_element,
     'dungeon_22': DungeonsAndChambers(x=74, y=36, width=5, height=2).get_size_of_element,
+    'dungeon_23': DungeonsAndChambers(x=6, y=43, width=20, height=1).get_size_of_element,
+    'dungeon_24': DungeonsAndChambers(x=25, y=36, width=1, height=7).get_size_of_element,
 
 }
 
@@ -128,36 +169,39 @@ MAP_C = {
 }
 
 START_MAP_C = {
-    'START_X': 0,
-    'START_Y': 35,
+    'start_x': 0,
+    'start_y': 35,
 }
 
-GATE_MAP_C = {'ICON': """
+GATE_MAP_C = {
+    'icon': """
 GA
 TE
 """,
-              'START_X': 77,
-              'START_Y': 35,
-              'COLOR': (255, 0, 0)
-              }
+    'start_x': 77,
+    'start_y': 35,
+    'color': (255, 0, 0)
+}
 
-NPC_MAP_C = {'ICON': 'N',
-             'START_X': 15,
-             'START_Y': 35,
-             'COLOR': (255, 0, 0)
-             }
+NPC_MAP_C = {
+    'icon': 'N',
+    'start_x': 15,
+    'start_y': 35,
+    'color': (255, 0, 0)
+}
 
-player_map_B = Player(START_MAP_B['START_X'], START_MAP_B['START_Y'])
+player_map_B = Player(START_MAP_B['start_x'], START_MAP_B['start_y'])
 entities_map_B = {
     player_map_B,
-    Entity(NPC_MAP_B['START_X'], NPC_MAP_B['START_Y'], NPC_MAP_B['ICON'], NPC_MAP_B['COLOR']),
-    Entity(GATE_MAP_B['START_X'], GATE_MAP_B['START_Y'], GATE_MAP_A['ICON'], GATE_MAP_B['COLOR']),
+    Entity(NPC_MAP_B['start_x'], NPC_MAP_B['start_y'], NPC_MAP_B['icon'], NPC_MAP_B['color'], block_movement=True),
+    Entity(GATE_MAP_B['start_x'], GATE_MAP_B['start_y'], GATE_MAP_A['icon'], GATE_MAP_B['color']),
+    Item(randint(25, 34), randint(3, 5), "key", "rusty key"),
     Monster(randint(11, 20), randint(31, 39), ORC["icon"], ORC["name"], ORC["max_hp"], ORC["loot"], ORC["color"], ORC["attack"]),
     Monster(randint(4, 12), randint(4, 12), ORC["icon"], ORC["name"], ORC["max_hp"], ORC["loot"], ORC["color"], ORC["attack"]),
     Monster(randint(57, 63), randint(27, 35), ORC["icon"], ORC["name"], ORC["max_hp"], ORC["loot"], ORC["color"], ORC["attack"]),
-    Monster(randint(66, 74), randint(7, 18), TROLL["icon"], TROLL["name"], TROLL["max_hp"], TROLL["loot"], TROLL["color"], TROLL["attack"]),
+    Monster(randint(71, 74), randint(35, 41), TROLL["icon"], TROLL["name"], TROLL["max_hp"], TROLL["loot"], TROLL["color"], TROLL["attack"]),
     Monster(randint(31, 36), randint(18, 22), TROLL["icon"], TROLL["name"], TROLL["max_hp"], TROLL["loot"], TROLL["color"], TROLL["attack"]),
-    Monster(69, 39, DRAGON["icon"], DRAGON["name"], DRAGON["max_hp"], DRAGON["loot"], DRAGON["color"], DRAGON["attack"]),
+    Monster(randint(66, 74), randint(6, 17), DRAGON["icon"], DRAGON["name"], DRAGON["max_hp"], DRAGON["loot"], DRAGON["color"], DRAGON["attack"]),
     Item(randint(25, 34), randint(2, 6), "key", "rusty key"),
     Item(randint(30, 36), randint(16, 22), "weapon", "double-edged axe (+5 ATR)", 5),
     Item(randint(3, 12), randint(3, 12), "food", "apple (+20 HP)", 20),
@@ -166,11 +210,11 @@ entities_map_B = {
 
 map_B = GameMap(MAP_B_CHAMBERS).generate_map
 
-player_map_C = Player(START_MAP_C['START_X'], START_MAP_C['START_Y'])
+player_map_C = Player(START_MAP_C['start_x'], START_MAP_C['start_y'])
 
 entities_map_C = {
     player_map_C,
-    Entity(NPC_MAP_C['START_X'], NPC_MAP_C['START_Y'], NPC_MAP_C['ICON'], NPC_MAP_C['COLOR'])
+    Entity(NPC_MAP_C['start_x'], NPC_MAP_C['start_y'], NPC_MAP_C['icon'], NPC_MAP_C['color'])
 }
 
 map_C = GameMap(MAP_C).generate_map

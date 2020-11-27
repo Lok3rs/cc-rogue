@@ -1,4 +1,3 @@
-import settings
 from .entity import Entity
 from typing import Tuple
 
