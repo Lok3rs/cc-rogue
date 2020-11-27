@@ -10,4 +10,4 @@ class Monster(Entity):
         self.loot = loot
         self.max_hp = max_hp
         self.current_hp = max_hp
-        self.color = color
+        self.attack = attack

@@ -1,5 +1,3 @@
-import random
-
 SCREEN = {'WIDTH': 80,
           'HEIGHT': 50
           }
@@ -12,12 +10,12 @@ PLAYER = {'ICON': 'Q',
           'COLOR': (255, 255, 255)
           }
 
-ORC ={
+ORC = {
        "icon": "o",
        "name": "orc",
        "loot": ["gold", "sword"],
        "max_hp": 90,
-       "color" : (0, 255, 0),
+       "color": (0, 255, 0),
        "attack": 10
 }
 
@@ -26,7 +24,7 @@ TROLL = {
        "name": "troll",
        "loot": ["gold", "meet"],
        "max_hp": 60,
-       "color" : (255, 255, 0),
+       "color": (255, 255, 0),
        "attack": 7
 }
 
@@ -39,3 +37,9 @@ DRAGON = {
        "attack": 20
 }
 
+ITEMS = {
+    "key": {"icon": "k", "color": (249, 215, 28)},
+    "weapon": {"icon": "w", "color": (0, 106, 212)},
+    "armor": {"icon": "a", "color": (0, 128, 0)},
+    "food": {"icon": "+", "color": (227, 38, 54)}
+}

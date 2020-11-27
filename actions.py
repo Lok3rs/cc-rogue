@@ -17,6 +17,7 @@ class Action:
 
         if self.type == "move":
             engine.logs.clear()
+            engine.is_inventory_shown = False
             dest_x = player.x + self.direction_x
             dest_y = player.y + self.direction_y
             print(f"move: {dest_x}, {dest_y}")
@@ -30,6 +31,7 @@ class Action:
 
             player.move(self.direction_x, self.direction_y)
         elif self.type == "grab":
+            engine.is_inventory_shown = False
             for single_entity in engine.entities:
                 if isinstance(single_entity, Item) and player.x == single_entity.x and player.y == single_entity.y:
                     messsage = player.inventory.add(single_entity)
@@ -39,6 +41,7 @@ class Action:
             else:
                 engine.logs.append("There is nothing to pick up here")
         elif self.type == "check":
+            engine.is_inventory_shown = False
             for single_entity in engine.entities:
                 if isinstance(single_entity, Item) and player.x == single_entity.x and player.y == single_entity.y:
                     article = "an" if single_entity.name[0] in "aeiou" else "a"
@@ -47,4 +50,30 @@ class Action:
             else:
                 engine.logs.append("There is nothing interesting here")
         elif self.type == "inventory":
-            player.inventory.show()
+            engine.is_inventory_shown = True
+            engine.logs.clear()
+            items = player.inventory.get_items()
+            if (len(items) > 0):
+                for item_type in items:
+                    items_by_type_str = ""
+                    if (item_type == "food"):
+                        items_by_type_str = ", ".join([f"[{i+1}] "+items[item_type][i].name for i in range(len(items[item_type]))])
+                    else:
+                        items_by_type_str = ", ".join([single_item.name for single_item in items[item_type]])
+                    engine.logs.append(f"{item_type}: {items_by_type_str}")
+            else:
+                engine.logs.append("Your inventory is empty")
+        elif self.type in "1234567890" and engine.is_inventory_shown is True:
+            engine.logs.clear()
+            
+            index = int(self.type) - 1
+            item_to_eat = player.inventory.items["food"][index]
+            player.hp = min(player.hp + item_to_eat.bonus, player.max_hp)
+            del player.inventory.items["food"][index]
+            if (len(player.inventory.items["food"]) == 0):
+                del player.inventory.items["food"]
+
+            article = "an" if item_to_eat.name in "aeiou" else "a"
+            engine.logs.append(f"You ate {article} {item_to_eat.name}")
+            
+            engine.is_inventory_shown = False
