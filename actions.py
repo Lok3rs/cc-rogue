@@ -61,7 +61,7 @@ class Action:
                             else:
                                 enemy_attack *= 1.5
                                 engine.logs.append(f"CRITICAL HIT RECEIVED! {entity.name.title()}'s piercing strike caused {math.floor(enemy_attack)} damage ")
-                            player._hp -= math.floor(enemy_attack)
+                            player._hp -= math.floor(enemy_attack) - player.armor
 
                             if player._hp <= 0:
                                 player._hp = 0
