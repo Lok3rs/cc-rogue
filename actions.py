@@ -4,6 +4,10 @@ from typing import TYPE_CHECKING
 from components import Player, Item
 from components.monsters import Monster
 
+import random
+import math
+from copy import deepcopy
+
 if TYPE_CHECKING:
     from engine import Engine
 
@@ -31,15 +35,37 @@ class Action:
                     entity = engine.game_map.get_blocking_entity(engine.entities, dest_x, dest_y)
                     # ATTACK
                     if isinstance(entity, Monster):
-                        entity.current_hp -= player.attack
+                        current_attack = random.randint(player.attack - 5, player.attack + 5)
+                        if random.random() > 0.2:
+                            engine.logs.append(f"You attacked {entity.name} and caused {current_attack} damage.")
+                        else:
+                            current_attack *= 1.5
+                            engine.logs.append(f"CRITICAL HIT! {entity.name.title()}'s bleeding! Caused {math.floor(current_attack)} damage.")
+                        entity.current_hp -= math.floor(current_attack)
+
                         if entity.current_hp <= 0:
                             engine.logs.append(f"You've killed {entity.name}")
-                            entity.color = (255, 0, 0)
-                            entity.block_movement = False
-                        player._hp -= entity.attack
-                        if player._hp <= 0:
-                            player._hp = 0
-                            engine.logs.append(f"You died! {entity.name.title()} killed you...")
+                            for single_entity in engine.entities:
+                                if isinstance(single_entity, Item) and single_entity.index == entity.index:
+                                    single_entity.x = entity.x
+                                    single_entity.y = entity.y
+                            entity.x = -1
+                            entity.y = -1
+
+
+
+                        else:
+                            enemy_attack = random.randint(entity.attack - 5, entity.attack + 5)
+                            if random.random() > 0.2:
+                                engine.logs.append(f"{entity.name.title()} attacked you and caused {enemy_attack} damage.")
+                            else:
+                                enemy_attack *= 1.5
+                                engine.logs.append(f"CRITICAL HIT RECEIVED! {entity.name.title()}'s piercing strike caused {math.floor(enemy_attack)} damage ")
+                            player._hp -= math.floor(enemy_attack)
+
+                            if player._hp <= 0:
+                                player._hp = 0
+                                engine.logs.append(f"You died! {entity.name.title()} killed you...")
 
                     return None
 
@@ -70,7 +96,7 @@ class Action:
                 if (len(items) > 0):
                     for item_type in items:
                         items_by_type_str = ""
-                        if (item_type == "food"):
+                        if item_type == "food":
                             items_by_type_str = ", ".join([f"[{i+1}] "+items[item_type][i].name for i in range(len(items[item_type]))])
                         else:
                             items_by_type_str = ", ".join([single_item.name for single_item in items[item_type]])
@@ -84,7 +110,7 @@ class Action:
                 item_to_eat = player.inventory.items["food"][index]
                 player._hp = min(player._hp + item_to_eat.bonus, player.max_hp)
                 del player.inventory.items["food"][index]
-                if (len(player.inventory.items["food"]) == 0):
+                if len(player.inventory.items["food"]) == 0:
                     del player.inventory.items["food"]
 
                 article = "an" if item_to_eat.name in "aeiou" else "a"
