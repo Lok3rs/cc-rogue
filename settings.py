@@ -6,9 +6,6 @@ MAP = {'WIDTH': 80,
        'HEIGHT': 45
        }
 
-PLAYER = {'ICON': 'Q',
-          'COLOR': (255, 255, 255)
-          }
 
 
 ITEMS = {
