@@ -24,6 +24,7 @@ class Engine:
         self.game_map = game_map
         self.player = player
         self.logs = []
+        self.is_inventory_shown = False
 
     def handle_events(self, events: Iterable[Any]) -> None:
         """
@@ -33,7 +34,8 @@ class Engine:
         for event in events:
 
             # Send the event to event_handler’s “dispatch” method, which sends the event to its proper place.
-            # In this case, a keyboard event will be sent to the ev_keydown method. The Action returned from that method is assigned to local action variable.
+            # In this case, a keyboard event will be sent to the ev_keydown method.
+            # The Action returned from that method is assigned to local action variable.
 
             action = self.event_handler.dispatch(event)
 
@@ -44,7 +46,8 @@ class Engine:
 
     def render(self, console: Console, context: Context) -> None:
         """
-        This handles drawing our screen. Iterates through the self.entities and prints them to their proper locations, then present the context, and clears the console
+        This handles drawing our screen. Iterates through the self.entities and prints them to their proper locations,
+        then present the context, and clears the console
         """
         self.game_map.render(console)
 
@@ -55,11 +58,19 @@ class Engine:
         tcod.console_print_ex(console, 8, 1, tcod.BKGND_NONE, tcod.CENTER, '{0}: {1}/{2}'.format("HP", self.player.hp, self.player.max_hp))
 
         y = settings.SCREEN["HEIGHT"] - 1
-        i = 1
+        messages_count = 1
         for message in self.logs[::-1]:
-            tcod.console_print_ex(console, 1, y - i, tcod.BKGND_NONE, tcod.LEFT, message)
-            i += 1
-            if i > 4: break
+            tcod.console_set_color_control(tcod.COLCTRL_1, tcod.yellow, tcod.black)
+            x = 1
+            for i in range(len(message)):
+                if (message[i] in "1234567890" and message[i-1] == "[" and message[i+1] == "]"):
+                    tcod.console_print(console, x, y - messages_count, f"%c{message[i]}%c"%(tcod.COLCTRL_1, tcod.COLCTRL_1))
+                else:
+                    tcod.console_print(console, x, y - messages_count, message[i])
+                x += 1
+            messages_count += 1
+            if messages_count > 4:
+                break
 
         context.present(console)
         console.clear()

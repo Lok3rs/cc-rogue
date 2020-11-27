@@ -27,6 +27,12 @@ class EventHandler(tcod.event.EventDispatch[Action]):
             action = Action(direction_x=0, direction_y=0, type="check")
         elif key == tcod.event.K_i:
             action = Action(direction_x=0, direction_y=0, type="inventory")
+        elif key == tcod.event.K_KP_1 or key == tcod.event.K_1:
+            action = Action(direction_x=0, direction_y=0, type="1")
+        elif key == tcod.event.K_KP_2 or key == tcod.event.K_2:
+            action = Action(direction_x=0, direction_y=0, type="2")
+        elif key == tcod.event.K_KP_3 or key == tcod.event.K_3:
+            action = Action(direction_x=0, direction_y=0, type="3")
 
         elif key == tcod.event.K_ESCAPE:
             raise SystemExit
