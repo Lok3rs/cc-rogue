@@ -52,9 +52,10 @@ class Action:
 
                         if blocking_entity.current_hp <= 0:
                             engine.logs.append(f"You've killed {blocking_entity.name}")
-                            blocking_entity.item.x = blocking_entity.x
-                            blocking_entity.item.y = blocking_entity.y
-                            engine.entities.add(blocking_entity.item)
+                            if (blocking_entity.item):
+                                blocking_entity.item.x = blocking_entity.x
+                                blocking_entity.item.y = blocking_entity.y
+                                engine.entities.add(blocking_entity.item)
                             engine.entities.remove(blocking_entity)
                         else:
                             enemy_attack = random.randint(blocking_entity.attack - 5, blocking_entity.attack + 5)
