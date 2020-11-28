@@ -29,7 +29,7 @@ class Action:
                 print(f"move: {dest_x}, {dest_y}")
 
                 if not engine.game_map.tiles["walkable"][dest_x, dest_y]:
-                    print('Wall blocked...')
+                    engine.logs.append("Well, you cannot go through the wall.")
                     return None  # Destination is blocked by a tile.
 
                 if engine.game_map.get_blocking_entity(engine.entities, dest_x, dest_y):
@@ -51,16 +51,16 @@ class Action:
                                 if isinstance(single_entity, Item) and single_entity.index == entity.index:
                                     single_entity.x = entity.x
                                     single_entity.y = entity.y
-                            entity.x = -10
-                            entity.y = -10
+                            entity.x = 8
+                            entity.y = 1
 
                         else:
                             enemy_attack = random.randint(entity.attack - 5, entity.attack + 5)
                             if random.random() > 0.2:
-                                engine.logs.append(f"{entity.name.title()} attacked you and caused {enemy_attack} damage.")
+                                engine.logs.append(f"{entity.name.title()} attacked you and caused {enemy_attack - player.armor} damage.")
                             else:
                                 enemy_attack *= 1.5
-                                engine.logs.append(f"CRITICAL HIT RECEIVED! {entity.name.title()}'s piercing strike caused {math.floor(enemy_attack)} damage ")
+                                engine.logs.append(f"CRITICAL HIT RECEIVED! {entity.name.title()}'s piercing strike caused {math.floor(enemy_attack) - player.armor} damage ")
                             player._hp -= math.floor(enemy_attack) - player.armor
 
                             if player._hp <= 0:
