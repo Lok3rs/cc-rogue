@@ -7,7 +7,6 @@ from components.monsters import Monster
 import random
 import math
 
-
 if TYPE_CHECKING:
     from engine import Engine
 
@@ -116,24 +115,28 @@ class Action:
                 index = int(self.type) - 1
                 items = player.inventory.get_items()
                 item_type = ""
-
-                for k, v in items.items():
-                    for value in v:
+                item_to_use = ""
+                for key, values in items.items():
+                    for single_value in values:
                         if count == index:
-                            item_type = k
-                            item_to_use = value
-                            item_index = v.index(value)
+                            item_type = key
+                            item_to_use = single_value
+                            item_index = values.index(single_value)
                         count += 1
                 article = "an" if item_to_use.name in "aeiou" else "a"
+
                 if item_type == "food":
                     player._hp = min(player._hp + item_to_use.bonus, player.max_hp)
                     engine.logs.append(f"You ate {article} {item_to_use.name}")
+
                 elif item_type == "weapon":
                     player.current_attack = player.attack + item_to_use.bonus
                     engine.logs.append(f"Your weapon now is {article} {item_to_use.name} and your bonus attack is +{item_to_use.bonus}")
+
                 elif item_type == "armor":
                     player.current_armor = player.armor + item_to_use.bonus
                     engine.logs.append(f"You wear {article} {item_to_use.name} and your bonus armor is +{item_to_use.bonus}")
+
                 if item_type in ["food", "armor", "weapon"]:
                     del player.inventory.items[item_type][item_index]
                     if len(player.inventory.items[item_type]) == 0:
