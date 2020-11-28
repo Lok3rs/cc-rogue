@@ -24,6 +24,8 @@ class Action:
                 engine.is_inventory_shown = False
                 dest_x = player.x + self.direction_x
                 dest_y = player.y + self.direction_y
+                blocking_entity = None
+                
                 print(f"move: {dest_x}, {dest_y}")
 
                 if not engine.game_map.tiles["walkable"][dest_x, dest_y]:
@@ -31,38 +33,48 @@ class Action:
                     return None  # Destination is blocked by a tile.
 
                 if engine.game_map.get_blocking_entity(engine.entities, dest_x, dest_y):
-                    entity = engine.game_map.get_blocking_entity(engine.entities, dest_x, dest_y)
+                    blocking_entity = engine.game_map.get_blocking_entity(engine.entities, dest_x, dest_y)
 
                     # ATTACK
-                    if isinstance(entity, Monster):
+                    if isinstance(blocking_entity, Monster):
                         current_attack = random.randint(player.attack - 5, player.attack + 5)
                         if random.random() > 0.2:
-                            engine.logs.append(f"You attacked {entity.name} and caused {current_attack} damage.")
+                            engine.logs.append(f"You attacked {blocking_entity.name} and caused {current_attack} damage.")
                         else:
                             current_attack *= 1.5
-                            engine.logs.append(f"CRITICAL HIT! {entity.name.title()}'s bleeding! Caused {math.floor(current_attack)} damage.")
-                        entity.current_hp -= math.floor(current_attack)
+                            engine.logs.append(f"CRITICAL HIT! {blocking_entity.name.title()}'s bleeding! Caused {math.floor(current_attack)} damage.")
+                        blocking_entity.current_hp -= math.floor(current_attack)
 
-                        if entity.current_hp <= 0:
-                            engine.logs.append(f"You've killed {entity.name}")
-                            entity.item.x = entity.x
-                            entity.item.y = entity.y
-                            engine.entities.add(entity.item)
-                            engine.entities.remove(entity)
+                        if blocking_entity.current_hp <= 0:
+                            engine.logs.append(f"You've killed {blocking_entity.name}")
+                            blocking_entity.item.x = blocking_entity.x
+                            blocking_entity.item.y = blocking_entity.y
+                            engine.entities.add(blocking_entity.item)
+                            engine.entities.remove(blocking_entity)
                         else:
-                            enemy_attack = random.randint(entity.attack - 5, entity.attack + 5)
+                            enemy_attack = random.randint(blocking_entity.attack - 5, blocking_entity.attack + 5)
                             if random.random() > 0.2:
-                                engine.logs.append(f"{entity.name.title()} attacked you and caused {enemy_attack - player.defense} damage.")
+                                engine.logs.append(f"{blocking_entity.name.title()} attacked you and caused {enemy_attack - player.defense} damage.")
                             else:
                                 enemy_attack *= 1.5
-                                engine.logs.append(f"CRITICAL HIT RECEIVED! {entity.name.title()}'s piercing strike caused {math.floor(enemy_attack) - player.defense} damage ")
+                                engine.logs.append(f"CRITICAL HIT RECEIVED! {blocking_entity.name.title()}'s piercing strike caused {math.floor(enemy_attack) - player.defense} damage ")
                             player.hp -= math.floor(enemy_attack) - player.defense
 
                             if player.hp <= 0:
                                 player.hp = 0
-                                engine.logs.append(f"You died! {entity.name.title()} killed you...")
+                                engine.logs.append(f"You died! {blocking_entity.name.title()} killed you...")
                 else:
                     player.move(self.direction_x, self.direction_y)
+
+                # MONSTERS MOVEMENT
+                for entity in engine.entities:
+                    if isinstance(entity, Monster) and random.random() > 0.8 and entity != blocking_entity:
+                        monster_direction_x = random.randint(-1, 1)
+                        monster_direction_y = random.randint(-1, 1)
+                        monster_dest_x = entity.x + monster_direction_x
+                        monster_dest_y = entity.y + monster_direction_y
+                        if engine.game_map.tiles["walkable"][monster_dest_x, monster_dest_y]:
+                            entity.move(monster_direction_x, monster_direction_y)
 
             elif self.type == "grab":
                 engine.is_inventory_shown = False
