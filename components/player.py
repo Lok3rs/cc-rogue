@@ -11,3 +11,6 @@ class Player(Entity):
         self.attack = 30
         self.armor = 5
         self._hp = self.max_hp
+        self.current_attack = self.attack
+        self.current_attack = self.armor
+
