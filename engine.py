@@ -55,7 +55,8 @@ class Engine:
             console.print(entity.x, entity.y, entity.character, fg=entity.color)
 
         # Draw the player's HP bar.
-        tcod.console_print_ex(console, 8, 1, tcod.BKGND_NONE, tcod.CENTER, '{0}: {1}/{2}'.format("HP", self.player._hp, self.player.max_hp))
+        tcod.console_print_ex(console, 8, 0, tcod.BKGND_NONE, tcod.CENTER, f'HP:{self.player._hp}/{self.player.max_hp}')
+        tcod.console_print_ex(console, 8, 1, tcod.BKGND_NONE, tcod.CENTER, f'AT:{self.player.current_attack} DE:{self.player.armor}')
 
         y = settings.SCREEN["HEIGHT"] - 1
         messages_count = 1
