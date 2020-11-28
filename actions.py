@@ -50,8 +50,8 @@ class Action:
                                 if isinstance(single_entity, Item) and single_entity.index == entity.index:
                                     single_entity.x = entity.x
                                     single_entity.y = entity.y
-                            entity.x = -1
-                            entity.y = -1
+                            entity.x = -10
+                            entity.y = -10
 
                         else:
                             enemy_attack = random.randint(entity.attack - 5, entity.attack + 5)

@@ -18,6 +18,14 @@ ITEMS = {
     "food": {"icon": "+", "color": (227, 38, 54)}
 }
 
+
+GATE = {
+    'icon': 'GA',
+    'icon_2': 'TE',
+    'color': (255, 0, 0)
+}
+
+
 ORC = {
     "icon": "O",
     "name": "orc",
@@ -101,14 +109,14 @@ START_MAP_B = {
     'start_y': 35,
 }
 
-GATE_MAP_B = {
-    'icon': """
-GA
-TE
-""",
-    'start_x': 77,
-    'start_y': 35,
-    'color': (255, 0, 0)
+GATE_MAP_B_1 = {
+    'start_x': 78,
+    'start_y': 36,
+}
+
+GATE_MAP_B_2 = {
+    'start_x': 78,
+    'start_y': 37,
 }
 
 NPC_MAP_B = {
@@ -173,13 +181,8 @@ START_MAP_C = {
 }
 
 GATE_MAP_C = {
-    'icon': """
-GA
-TE
-""",
     'start_x': 77,
     'start_y': 35,
-    'color': (255, 0, 0)
 }
 
 NPC_MAP_C = {
@@ -193,7 +196,8 @@ player_map_B = Player(START_MAP_B['start_x'], START_MAP_B['start_y'], PLAYER['ic
 entities_map_B = {
     player_map_B,
     Entity(NPC_MAP_B['start_x'], NPC_MAP_B['start_y'], NPC_MAP_B['icon'], NPC_MAP_B['color'], block_movement=True),
-    Entity(GATE_MAP_B['start_x'], GATE_MAP_B['start_y'], GATE_MAP_A['icon'], GATE_MAP_B['color']),
+    Entity(GATE_MAP_B_1['start_x'], GATE_MAP_B_1['start_y'], GATE['icon'], GATE['color'], block_movement=True),
+    Entity(GATE_MAP_B_2['start_x'], GATE_MAP_B_2['start_y'], GATE['icon_2'], GATE['color'], block_movement=True),
     Item(randint(25, 34), randint(3, 5), "key", "rusty key"),
     Monster(randint(11, 19), randint(31, 39), ORC["icon"], ORC["name"], ORC["max_hp"], ORC["color"], ORC["attack"], index=1),
     Monster(randint(4, 12), randint(4, 12), ORC["icon"], ORC["name"], ORC["max_hp"], ORC["color"], ORC["attack"], index=2),
@@ -201,12 +205,12 @@ entities_map_B = {
     Monster(randint(71, 74), randint(35, 41), TROLL["icon"], TROLL["name"], TROLL["max_hp"], TROLL["color"], TROLL["attack"], index=4),
     Monster(randint(31, 36), randint(18, 22), TROLL["icon"], TROLL["name"], TROLL["max_hp"], TROLL["color"], TROLL["attack"], index=5),
     Monster(randint(66, 74), randint(6, 17), DRAGON["icon"], DRAGON["name"], DRAGON["max_hp"], DRAGON["color"], DRAGON["attack"], index=6),
-    Item(-1, -1, "food", "meet", 20, index=1),
-    Item(-1, -1, "weapon", "rusted sabre", 5, index=2),
-    Item(-1, -1, "food", "meet", 20, index=3),
-    Item(-1, -1, "food", "apple", 20, index=4),
-    Item(-1, -1, "armor", "bronze armor", 10, index=5),
-    Item(-1, -1, "armor", "plate armor", 25, index=6),
+    Item(-10, -10, "food", "meet", 20, index=1),
+    Item(-10, -10, "weapon", "rusted sabre", 5, index=2),
+    Item(-10, -10, "food", "meet", 20, index=3),
+    Item(-10, -10, "food", "apple", 20, index=4),
+    Item(-10, -10, "armor", "bronze armor", 10, index=5),
+    Item(-10, -10, "armor", "plate armor", 25, index=6),
     Item(randint(25, 34), randint(2, 6), "key", "rusty key"),
     Item(randint(30, 36), randint(16, 22), "weapon", "double-edged axe (+5 ATR)", 5),
     Item(randint(3, 12), randint(3, 12), "food", "apple (+20 HP)", 20),
