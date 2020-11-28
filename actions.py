@@ -4,9 +4,10 @@ from typing import TYPE_CHECKING
 from components import Player, Item
 from components.monsters import Monster
 
+
 import random
 import math
-from copy import deepcopy
+
 
 if TYPE_CHECKING:
     from engine import Engine
@@ -28,7 +29,7 @@ class Action:
                 print(f"move: {dest_x}, {dest_y}")
 
                 if not engine.game_map.tiles["walkable"][dest_x, dest_y]:
-                    print('Wall blocked...')
+                    engine.logs.append("Well, you cannot go through the wall.")
                     return None  # Destination is blocked by a tile.
 
                 if engine.game_map.get_blocking_entity(engine.entities, dest_x, dest_y):
@@ -50,22 +51,23 @@ class Action:
                                 if isinstance(single_entity, Item) and single_entity.index == entity.index:
                                     single_entity.x = entity.x
                                     single_entity.y = entity.y
-                            entity.x = -1
-                            entity.y = -1
+                            entity.x = 8
+                            entity.y = 1
 
                         else:
                             enemy_attack = random.randint(entity.attack - 5, entity.attack + 5)
                             if random.random() > 0.2:
-                                engine.logs.append(f"{entity.name.title()} attacked you and caused {enemy_attack} damage.")
+                                engine.logs.append(f"{entity.name.title()} attacked you and caused {enemy_attack - player.armor} damage.")
                             else:
                                 enemy_attack *= 1.5
-                                engine.logs.append(f"CRITICAL HIT RECEIVED! {entity.name.title()}'s piercing strike caused {math.floor(enemy_attack)} damage ")
+                                engine.logs.append(f"CRITICAL HIT RECEIVED! {entity.name.title()}'s piercing strike caused {math.floor(enemy_attack) - player.armor} damage ")
                             player._hp -= math.floor(enemy_attack) - player.armor
 
                             if player._hp <= 0:
                                 player._hp = 0
                                 engine.logs.append(f"You died! {entity.name.title()} killed you...")
                     return None
+
                 player.move(self.direction_x, self.direction_y)
 
             elif self.type == "grab":
@@ -94,27 +96,48 @@ class Action:
                 engine.logs.clear()
                 items = player.inventory.get_items()
 
-                if (len(items) > 0):
+                if len(items) > 0:
+                    cur_i = 0
                     for item_type in items:
                         items_by_type_str = ""
-                        if item_type == "food":
-                            items_by_type_str = ", ".join([f"[{i + 1}] " + items[item_type][i].name for i in range(len(items[item_type]))])
+                        if item_type in ["food", "weapon", "armor"]:
+
+                            items_by_type_str = ", ".join(
+                                [f"[{cur_i + i + 1}] " + items[item_type][i].name for i in range(len(items[item_type]))])
+                            cur_i += len(items[item_type])
                         else:
                             items_by_type_str = ", ".join([single_item.name for single_item in items[item_type]])
                         engine.logs.append(f"{item_type}: {items_by_type_str}")
                 else:
                     engine.logs.append("Your inventory is empty")
 
-            elif self.type in "1234567890" and engine.is_inventory_shown is True:
+            elif self.type in [char for char in "1234567890"] and engine.is_inventory_shown is True:
                 engine.logs.clear()
+                count = 0
                 index = int(self.type) - 1
-                item_to_eat = player.inventory.items["food"][index]
-                player._hp = min(player._hp + item_to_eat.bonus, player.max_hp)
-                del player.inventory.items["food"][index]
-                if len(player.inventory.items["food"]) == 0:
-                    del player.inventory.items["food"]
+                items = player.inventory.get_items()
+                item_type = ""
 
-                article = "an" if item_to_eat.name in "aeiou" else "a"
-                engine.logs.append(f"You ate {article} {item_to_eat.name}")
+                for k, v in items.items():
+                    for value in v:
+                        if count == index:
+                            item_type = k
+                            item_to_use = value
+                            item_index = v.index(value)
+                        count += 1
+                article = "an" if item_to_use.name in "aeiou" else "a"
+                if item_type == "food":
+                    player._hp = min(player._hp + item_to_use.bonus, player.max_hp)
+                    engine.logs.append(f"You ate {article} {item_to_use.name}")
+                elif item_type == "weapon":
+                    player.current_attack = player.attack + item_to_use.bonus
+                    engine.logs.append(f"Your weapon now is {article} {item_to_use.name} and your bonus attack is +{item_to_use.bonus}")
+                elif item_type == "armor":
+                    player.current_armor = player.armor + item_to_use.bonus
+                    engine.logs.append(f"You wear {article} {item_to_use.name} and your bonus armor is +{item_to_use.bonus}")
+                if item_type in ["food", "armor", "weapon"]:
+                    del player.inventory.items[item_type][item_index]
+                    if len(player.inventory.items[item_type]) == 0:
+                        del player.inventory.items[item_type]
 
-                engine.is_inventory_shown = False
+                    engine.is_inventory_shown = False
