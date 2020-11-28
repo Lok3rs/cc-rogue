@@ -12,7 +12,6 @@ if TYPE_CHECKING:
     from engine import Engine
 
 
-
 class Action:
     def __init__(self, direction_x: int, direction_y: int, type):
         self.direction_x = direction_x
@@ -31,8 +30,10 @@ class Action:
                 if not engine.game_map.tiles["walkable"][dest_x, dest_y]:
                     print('Wall blocked...')
                     return None  # Destination is blocked by a tile.
+
                 if engine.game_map.get_blocking_entity(engine.entities, dest_x, dest_y):
                     entity = engine.game_map.get_blocking_entity(engine.entities, dest_x, dest_y)
+
                     # ATTACK
                     if isinstance(entity, Monster):
                         current_attack = random.randint(player.attack - 5, player.attack + 5)
@@ -52,8 +53,6 @@ class Action:
                             entity.x = -1
                             entity.y = -1
 
-
-
                         else:
                             enemy_attack = random.randint(entity.attack - 5, entity.attack + 5)
                             if random.random() > 0.2:
@@ -66,10 +65,9 @@ class Action:
                             if player._hp <= 0:
                                 player._hp = 0
                                 engine.logs.append(f"You died! {entity.name.title()} killed you...")
-
                     return None
-
                 player.move(self.direction_x, self.direction_y)
+
             elif self.type == "grab":
                 engine.is_inventory_shown = False
                 for single_entity in engine.entities:
@@ -80,6 +78,7 @@ class Action:
                         break
                 else:
                     engine.logs.append("There is nothing to pick up here")
+
             elif self.type == "check":
                 engine.is_inventory_shown = False
                 for single_entity in engine.entities:
@@ -89,23 +88,25 @@ class Action:
                         break
                 else:
                     engine.logs.append("There is nothing interesting here")
+
             elif self.type == "inventory":
                 engine.is_inventory_shown = True
                 engine.logs.clear()
                 items = player.inventory.get_items()
+
                 if (len(items) > 0):
                     for item_type in items:
                         items_by_type_str = ""
                         if item_type == "food":
-                            items_by_type_str = ", ".join([f"[{i+1}] "+items[item_type][i].name for i in range(len(items[item_type]))])
+                            items_by_type_str = ", ".join([f"[{i + 1}] " + items[item_type][i].name for i in range(len(items[item_type]))])
                         else:
                             items_by_type_str = ", ".join([single_item.name for single_item in items[item_type]])
                         engine.logs.append(f"{item_type}: {items_by_type_str}")
                 else:
                     engine.logs.append("Your inventory is empty")
+
             elif self.type in "1234567890" and engine.is_inventory_shown is True:
                 engine.logs.clear()
-
                 index = int(self.type) - 1
                 item_to_eat = player.inventory.items["food"][index]
                 player._hp = min(player._hp + item_to_eat.bonus, player.max_hp)

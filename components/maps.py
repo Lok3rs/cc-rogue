@@ -6,7 +6,10 @@ from components.player import Player
 
 from random import randint
 
-
+PLAYER = {
+    'icon': 'Q',
+    'color': (255, 255, 255)
+}
 
 ITEMS = {
     "key": {"icon": "k", "color": (249, 215, 28)},
@@ -15,29 +18,28 @@ ITEMS = {
     "food": {"icon": "+", "color": (227, 38, 54)}
 }
 
-
 ORC = {
-       "icon": "o",
-       "name": "orc",
-       "max_hp": 90,
-       "color": (0, 255, 0),
-       "attack": 10,
+    "icon": "O",
+    "name": "orc",
+    "max_hp": 90,
+    "color": (0, 255, 0),
+    "attack": 10,
 }
 
 TROLL = {
-       "icon": "t",
-       "name": "troll",
-       "max_hp": 60,
-       "color": (255, 255, 0),
-       "attack": 7,
+    "icon": "T",
+    "name": "troll",
+    "max_hp": 60,
+    "color": (255, 255, 0),
+    "attack": 7,
 }
 
 DRAGON = {
-       "icon": "D",
-       "name": "dragon",
-       "max_hp": 400,
-       "color": (120, 255, 70),
-       "attack": 20
+    "icon": "D",
+    "name": "dragon",
+    "max_hp": 400,
+    "color": (120, 255, 70),
+    "attack": 20
 }
 
 START_MAP_A = {
@@ -187,13 +189,13 @@ NPC_MAP_C = {
     'color': (255, 0, 0)
 }
 
-player_map_B = Player(START_MAP_B['start_x'], START_MAP_B['start_y'])
+player_map_B = Player(START_MAP_B['start_x'], START_MAP_B['start_y'], PLAYER['icon'], PLAYER['color'])
 entities_map_B = {
     player_map_B,
     Entity(NPC_MAP_B['start_x'], NPC_MAP_B['start_y'], NPC_MAP_B['icon'], NPC_MAP_B['color'], block_movement=True),
     Entity(GATE_MAP_B['start_x'], GATE_MAP_B['start_y'], GATE_MAP_A['icon'], GATE_MAP_B['color']),
     Item(randint(25, 34), randint(3, 5), "key", "rusty key"),
-    Monster( randint(11, 20), randint(31, 39), ORC["icon"], ORC["name"], ORC["max_hp"], ORC["color"], ORC["attack"], index=1),
+    Monster(randint(11, 19), randint(31, 39), ORC["icon"], ORC["name"], ORC["max_hp"], ORC["color"], ORC["attack"], index=1),
     Monster(randint(4, 12), randint(4, 12), ORC["icon"], ORC["name"], ORC["max_hp"], ORC["color"], ORC["attack"], index=2),
     Monster(randint(57, 63), randint(27, 35), ORC["icon"], ORC["name"], ORC["max_hp"], ORC["color"], ORC["attack"], index=3),
     Monster(randint(71, 74), randint(35, 41), TROLL["icon"], TROLL["name"], TROLL["max_hp"], TROLL["color"], TROLL["attack"], index=4),
@@ -213,7 +215,7 @@ entities_map_B = {
 
 map_B = GameMap(MAP_B_CHAMBERS).generate_map
 
-player_map_C = Player(START_MAP_C['start_x'], START_MAP_C['start_y'])
+player_map_C = Player(START_MAP_C['start_x'], START_MAP_C['start_y'], PLAYER['icon'], PLAYER['color'])
 
 entities_map_C = {
     player_map_C,
