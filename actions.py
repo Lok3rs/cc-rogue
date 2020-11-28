@@ -18,7 +18,7 @@ class Action:
         self.type = type
 
     def perform(self, engine: Engine, player: Player) -> None:
-        if player._hp > 0:
+        if player.hp > 0:
             if self.type == "move":
                 engine.logs.clear()
                 engine.is_inventory_shown = False
@@ -45,28 +45,24 @@ class Action:
 
                         if entity.current_hp <= 0:
                             engine.logs.append(f"You've killed {entity.name}")
-                            for single_entity in engine.entities:
-                                if isinstance(single_entity, Item) and single_entity.index == entity.index:
-                                    single_entity.x = entity.x
-                                    single_entity.y = entity.y
-                            entity.x = 8
-                            entity.y = 1
-
+                            entity.item.x = entity.x
+                            entity.item.y = entity.y
+                            engine.entities.add(entity.item)
+                            engine.entities.remove(entity)
                         else:
                             enemy_attack = random.randint(entity.attack - 5, entity.attack + 5)
                             if random.random() > 0.2:
-                                engine.logs.append(f"{entity.name.title()} attacked you and caused {enemy_attack - player.armor} damage.")
+                                engine.logs.append(f"{entity.name.title()} attacked you and caused {enemy_attack - player.defense} damage.")
                             else:
                                 enemy_attack *= 1.5
-                                engine.logs.append(f"CRITICAL HIT RECEIVED! {entity.name.title()}'s piercing strike caused {math.floor(enemy_attack) - player.armor} damage ")
-                            player._hp -= math.floor(enemy_attack) - player.armor
+                                engine.logs.append(f"CRITICAL HIT RECEIVED! {entity.name.title()}'s piercing strike caused {math.floor(enemy_attack) - player.defense} damage ")
+                            player.hp -= math.floor(enemy_attack) - player.defense
 
-                            if player._hp <= 0:
-                                player._hp = 0
+                            if player.hp <= 0:
+                                player.hp = 0
                                 engine.logs.append(f"You died! {entity.name.title()} killed you...")
-                    return None
-
-                player.move(self.direction_x, self.direction_y)
+                else:
+                    player.move(self.direction_x, self.direction_y)
 
             elif self.type == "grab":
                 engine.is_inventory_shown = False
@@ -84,7 +80,7 @@ class Action:
                 for single_entity in engine.entities:
                     if isinstance(single_entity, Item) and player.x == single_entity.x and player.y == single_entity.y:
                         article = "an" if single_entity.name[0] in "aeiou" else "a"
-                        engine.logs.append(f"This is {article} {single_entity.name}")
+                        engine.logs.append(f"This is {article} {single_entity.get_description()}")
                         break
                 else:
                     engine.logs.append("There is nothing interesting here")
@@ -101,10 +97,10 @@ class Action:
                         if item_type in ["food", "weapon", "armor"]:
 
                             items_by_type_str = ", ".join(
-                                [f"[{cur_i + i + 1}] " + items[item_type][i].name for i in range(len(items[item_type]))])
+                                [f"[{cur_i + i + 1}] " + items[item_type][i].get_description() for i in range(len(items[item_type]))])
                             cur_i += len(items[item_type])
                         else:
-                            items_by_type_str = ", ".join([single_item.name for single_item in items[item_type]])
+                            items_by_type_str = ", ".join([single_item.get_description() for single_item in items[item_type]])
                         engine.logs.append(f"{item_type}: {items_by_type_str}")
                 else:
                     engine.logs.append("Your inventory is empty")
@@ -116,6 +112,7 @@ class Action:
                 items = player.inventory.get_items()
                 item_type = ""
                 item_to_use = ""
+                item_index = None
                 for key, values in items.items():
                     for single_value in values:
                         if count == index:
@@ -126,7 +123,7 @@ class Action:
                 article = "an" if item_to_use.name in "aeiou" else "a"
 
                 if item_type == "food":
-                    player._hp = min(player._hp + item_to_use.bonus, player.max_hp)
+                    player.hp = min(player.hp + item_to_use.bonus, player.max_hp)
                     engine.logs.append(f"You ate {article} {item_to_use.name}")
 
                 elif item_type == "weapon":
@@ -134,7 +131,7 @@ class Action:
                     engine.logs.append(f"Your weapon now is {article} {item_to_use.name} and your bonus attack is +{item_to_use.bonus}")
 
                 elif item_type == "armor":
-                    player.current_armor = player.armor + item_to_use.bonus
+                    player.current_defense = player.defense + item_to_use.bonus
                     engine.logs.append(f"You wear {article} {item_to_use.name} and your bonus armor is +{item_to_use.bonus}")
 
                 if item_type in ["food", "armor", "weapon"]:

@@ -6,48 +6,11 @@ from components.player import Player
 
 from random import randint
 
-PLAYER = {
-    'icon': 'Q',
-    'color': (255, 255, 255)
-}
-
-ITEMS = {
-    "key": {"icon": "k", "color": (249, 215, 28)},
-    "weapon": {"icon": "w", "color": (0, 106, 212)},
-    "armor": {"icon": "a", "color": (0, 128, 0)},
-    "food": {"icon": "+", "color": (227, 38, 54)}
-}
-
 
 GATE = {
     'icon': 'GA',
     'icon_2': 'TE',
     'color': (255, 0, 0)
-}
-
-
-ORC = {
-    "icon": "O",
-    "name": "orc",
-    "max_hp": 90,
-    "color": (0, 255, 0),
-    "attack": 10,
-}
-
-TROLL = {
-    "icon": "T",
-    "name": "troll",
-    "max_hp": 60,
-    "color": (255, 255, 0),
-    "attack": 7,
-}
-
-DRAGON = {
-    "icon": "D",
-    "name": "dragon",
-    "max_hp": 400,
-    "color": (120, 255, 70),
-    "attack": 20
 }
 
 START_MAP_A = {
@@ -192,34 +155,27 @@ NPC_MAP_C = {
     'color': (255, 0, 0)
 }
 
-player_map_B = Player(START_MAP_B['start_x'], START_MAP_B['start_y'], PLAYER['icon'], PLAYER['color'])
+player_map_B = Player(START_MAP_B['start_x'], START_MAP_B['start_y'])
 entities_map_B = {
     player_map_B,
     Entity(NPC_MAP_B['start_x'], NPC_MAP_B['start_y'], NPC_MAP_B['icon'], NPC_MAP_B['color'], block_movement=True),
     Entity(GATE_MAP_B_1['start_x'], GATE_MAP_B_1['start_y'], GATE['icon'], GATE['color'], block_movement=True),
     Entity(GATE_MAP_B_2['start_x'], GATE_MAP_B_2['start_y'], GATE['icon_2'], GATE['color'], block_movement=True),
-    Item(randint(25, 34), randint(3, 5), "key", "rusty key"),
-    Monster(randint(11, 19), randint(31, 39), ORC["icon"], ORC["name"], ORC["max_hp"], ORC["color"], ORC["attack"], index=1),
-    Monster(randint(4, 12), randint(4, 12), ORC["icon"], ORC["name"], ORC["max_hp"], ORC["color"], ORC["attack"], index=2),
-    Monster(randint(57, 63), randint(27, 35), ORC["icon"], ORC["name"], ORC["max_hp"], ORC["color"], ORC["attack"], index=3),
-    Monster(randint(71, 74), randint(35, 41), TROLL["icon"], TROLL["name"], TROLL["max_hp"], TROLL["color"], TROLL["attack"], index=4),
-    Monster(randint(31, 36), randint(18, 22), TROLL["icon"], TROLL["name"], TROLL["max_hp"], TROLL["color"], TROLL["attack"], index=5),
-    Monster(randint(66, 74), randint(6, 17), DRAGON["icon"], DRAGON["name"], DRAGON["max_hp"], DRAGON["color"], DRAGON["attack"], index=6),
-    Item(8, 1, "food", "meet", 20, index=1),
-    Item(8, 1, "weapon", "rusted sabre", 5, index=2),
-    Item(8, 1, "food", "meet", 20, index=3),
-    Item(8, 1, "food", "apple", 20, index=4),
-    Item(8, 1, "armor", "bronze armor", 10, index=5),
-    Item(8, 1, "armor", "plate armor", 25, index=6),
-    Item(randint(25, 34), randint(2, 6), "key", "rusty key"),
-    Item(randint(30, 36), randint(16, 22), "weapon", "double-edged axe (+5 ATR)", 5),
-    Item(randint(3, 12), randint(3, 12), "food", "apple (+20 HP)", 20),
-    Item(randint(13, 17), randint(20, 24), "food", "bread (+50 HP)", 50)
+    Monster(randint(11, 19), randint(31, 39), "orc", item=Item(8, 1, "food", "meet", 30, index=1)),
+    Monster(randint(4, 12), randint(4, 12), "orc", item=Item(0, 0, "weapon", "rusted sabre", 5)),
+    Monster(randint(57, 63), randint(27, 35), "orc", item=Item(0, 0, "food", "meet", 30)),
+    Monster(randint(71, 74), randint(35, 41), "troll", item=Item(0, 0, "food", "apple", 10)),
+    Monster(randint(31, 36), randint(18, 22), "troll", item=Item(0, 0, "armor", "bronze armor", 10)),
+    Monster(randint(66, 74), randint(6, 17), "dragon", item=Item(0, 0, "armor", "plate armor", 25, index=6)),
+    Item(randint(25, 34), randint(2, 6), "special", "rusty key"),
+    Item(randint(30, 36), randint(16, 22), "weapon", "double-edged axe", 5),
+    Item(randint(3, 12), randint(3, 12), "food", "apple", 20),
+    Item(randint(13, 17), randint(20, 24), "food", "bread", 50)
 }
 
 map_B = GameMap(MAP_B_CHAMBERS).generate_map
 
-player_map_C = Player(START_MAP_C['start_x'], START_MAP_C['start_y'], PLAYER['icon'], PLAYER['color'])
+player_map_C = Player(START_MAP_C['start_x'], START_MAP_C['start_y'])
 
 entities_map_C = {
     player_map_C,
