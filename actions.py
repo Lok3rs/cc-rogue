@@ -21,6 +21,7 @@ class Action:
         if player.hp > 0:
             if self.type == "move":
                 engine.logs.clear()
+                engine.talk_to.clear()
                 engine.is_inventory_shown = False
                 dest_x = player.x + self.direction_x
                 dest_y = player.y + self.direction_y
@@ -34,6 +35,10 @@ class Action:
 
                 if engine.game_map.get_blocking_entity(engine.entities, dest_x, dest_y):
                     blocking_entity = engine.game_map.get_blocking_entity(engine.entities, dest_x, dest_y)
+                    engine.x = dest_x
+                    engine.y = dest_y
+                    message = blocking_entity.talk_to_player
+                    engine.talk_to.append(message)
 
                     # ATTACK
                     if isinstance(blocking_entity, Monster):

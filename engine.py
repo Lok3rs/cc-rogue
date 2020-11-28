@@ -11,7 +11,7 @@ from components import Entity, Player
 
 
 class Engine:
-    def __init__(self, entities: Set[Entity], event_handler: EventHandler, game_map: GameMap, player: Player):
+    def __init__(self, entities: Set[Entity], event_handler: EventHandler, game_map: GameMap, player: Player, entity_x: int = 0, entity_y: int = 0):
         """
         Responsible of drawing the map and entities, as well as handling the player’s input.
 
@@ -25,6 +25,9 @@ class Engine:
         self.player = player
         self.logs = []
         self.is_inventory_shown = False
+        self.talk_to = []
+        self.x = entity_x
+        self.y = entity_y
 
     def handle_events(self, events: Iterable[Any]) -> None:
         """
@@ -55,9 +58,12 @@ class Engine:
             console.print(entity.x, entity.y+settings.Y_MAP_START, entity.character, fg=entity.color)
 
         # Draw the player's HP bar.
-        tcod.console_print_ex(console, 8, 1, tcod.BKGND_NONE, tcod.CENTER, '{0}: {1}/{2}'.format("HP", self.player.hp, self.player.max_hp))
-        tcod.console_print_ex(console, 25, 1, tcod.BKGND_NONE, tcod.CENTER,'{}: {}+{}'.format("ATK", self.player.attack, self.player.current_attack - self.player.attack))
-        tcod.console_print_ex(console, 40, 1, tcod.BKGND_NONE, tcod.CENTER, '{}: {}+{}'.format("DEF", self.player.defense, self.player.current_defense-self.player.defense))
+        # tcod.console_print_ex(console, 8, 1, tcod.BKGND_NONE, tcod.CENTER, '{0}: {1}/{2}'.format("HP", self.player.hp, self.player.max_hp))
+        # tcod.console_print_ex(console, 25, 1, tcod.BKGND_NONE, tcod.CENTER,'{}: {}+{}'.format("ATK", self.player.attack, self.player.current_attack - self.player.attack))
+        # tcod.console_print_ex(console, 40, 1, tcod.BKGND_NONE, tcod.CENTER, '{}: {}+{}'.format("DEF", self.player.defense, self.player.current_defense-self.player.defense))
+
+        console.print(3, 1, f'HP:{self.player.hp}/{self.player.max_hp} ARM:{self.player.defense}+{self.player.current_defense - self.player.defense} '
+                            f'ATT:{self.player.attack}+{self.player.current_attack - self.player.attack}', bg=(0, 0, 0), fg=(0, 255, 0))
 
         y = settings.SCREEN["HEIGHT"] - 1
         messages_count = 1
@@ -73,6 +79,9 @@ class Engine:
             messages_count += 1
             if messages_count > 4:
                 break
+
+        for message in self.talk_to:
+            console.print(self.x - 10, self.y+1, message, bg=(255, 255, 255), fg=(0, 0, 0))
 
         context.present(console)
         console.clear()

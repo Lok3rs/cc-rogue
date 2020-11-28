@@ -1,5 +1,6 @@
 from .entity import Entity
 from components import Item
+from typing import Optional
 
 
 MONSTER_TYPES = {
@@ -25,10 +26,11 @@ MONSTER_TYPES = {
 
 
 class Monster(Entity):
-    def __init__(self, x: int, y: int, type: str, max_hp: int = None, attack: int = None, item: Item = None, block_movement: bool = True):
+    def __init__(self, x: int, y: int, type: str, max_hp: int = None, attack: int = None, item: Item = None, block_movement: bool = True, talk_to_player: Optional = ''):
         super().__init__(x, y, MONSTER_TYPES[type]["icon"], MONSTER_TYPES[type]["color"], block_movement)
         self.name = type
         self.max_hp = max_hp
         self.current_hp = max_hp if max_hp is not None else MONSTER_TYPES[type]["max_hp"]
         self.attack = attack if attack is not None else MONSTER_TYPES[type]["attack"]
         self.item = item
+        self.talk_to_player = talk_to_player
