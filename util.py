@@ -33,6 +33,18 @@ class EventHandler(tcod.event.EventDispatch[Action]):
             action = Action(direction_x=0, direction_y=0, type="2")
         elif key == tcod.event.K_KP_3 or key == tcod.event.K_3:
             action = Action(direction_x=0, direction_y=0, type="3")
+        elif key == tcod.event.K_KP_4 or key == tcod.event.K_4:
+            action = Action(direction_x=0, direction_y=0, type="4")
+        elif key == tcod.event.K_KP_5 or key == tcod.event.K_5:
+            action = Action(direction_x=0, direction_y=0, type="5")
+        elif key == tcod.event.K_KP_6 or key == tcod.event.K_6:
+            action = Action(direction_x=0, direction_y=0, type="6")
+        elif key == tcod.event.K_KP_7 or key == tcod.event.K_7:
+            action = Action(direction_x=0, direction_y=0, type="7")
+        elif key == tcod.event.K_KP_8 or key == tcod.event.K_8:
+            action = Action(direction_x=0, direction_y=0, type="8")
+        elif key == tcod.event.K_KP_9 or key == tcod.event.K_9:
+            action = Action(direction_x=0, direction_y=0, type="9")
 
         elif key == tcod.event.K_ESCAPE:
             raise SystemExit
