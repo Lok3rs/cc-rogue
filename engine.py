@@ -6,11 +6,11 @@ import tcod
 import settings
 
 from util import EventHandler
-from components import Entity, Player, GameMap
+from components import Player, GameMap
 
 
 class Engine:
-    def __init__(self, event_handler: EventHandler, game_map: GameMap, player: Player, entity_x: int = 0, entity_y: int = 0):
+    def __init__(self, event_handler: EventHandler, game_map: GameMap, entity_x: int = 0, entity_y: int = 0):
         """
         Responsible of drawing the map and entities, as well as handling the player’s input.
 
@@ -21,7 +21,8 @@ class Engine:
         self.entities = game_map.entities
         self.event_handler = event_handler
         self.game_map = game_map
-        self.player = player
+        self.player = Player(game_map.start_coords[0], game_map.start_coords[1])
+        self.entities.add(self.player)
         self.logs = []
         self.is_inventory_shown = False
         self.talk_to = []

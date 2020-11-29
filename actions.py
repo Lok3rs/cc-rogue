@@ -38,33 +38,26 @@ class Action:
                     engine.x = dest_x
                     engine.y = dest_y
                     message = blocking_entity.talk_to_player
-                    engine.talk_to.append(message) if not blocking_entity.is_gate or not "special" in player.inventory.get_items() else None
+                    engine.talk_to.append(message) if not blocking_entity.is_gate or not player.has_gate_key() else None
 
                     if blocking_entity.is_gate:
-                        if "special" in player.inventory.get_items():
-                            if engine.current_round == 1:
-                                engine.entities = maps.MAP_C.entities
-                                engine.game_map = maps.MAP_C
+                        if player.has_gate_key():
+                            current_map = engine.game_map
+
+                            # map change
+                            if current_map.next_map:
+                                engine.game_map = current_map.next_map
+                                engine.entities = current_map.next_map.entities
+                                player.x = current_map.next_map.start_coords[0]
+                                player.y = current_map.next_map.start_coords[1]
                                 engine.entities.add(player)
-                                player.x = 0
-                                player.y = 35
                                 engine.current_round += 1
-                                for item in player.inventory.get_items():
-                                    if item == "special":
-                                        del player.inventory.items[item]
-                                        break
-                                return
-                            if engine.current_round == 2:
-                                engine.entities = maps.MAP_A.entities
-                                engine.game_map = maps.MAP_A
-                                engine.entities.add(player)
-                                player.x = 0
-                                player.y = 5
-                                engine.current_round += 1
-                            if engine.current_round == 3:
-                                pass
-                        # ATTACK
-                    if isinstance(blocking_entity, Monster):
+                                player.remove_gate_key()
+                            else:
+                                engine.logs.append("Next levels under construction")
+                            return
+                        
+                    if isinstance(blocking_entity, Monster):  # attack
                         current_attack = random.randint(player.attack - 5, player.attack + 5)
                         if random.random() > 0.2:
                             engine.logs.append(f"You attacked {blocking_entity.name} and caused {current_attack} damage.")
@@ -107,7 +100,7 @@ class Action:
                 else:
                     player.move(self.direction_x, self.direction_y)
 
-                # MONSTERS MOVEMENT
+                # monster movement
                 for entity in engine.entities:
                     if isinstance(entity, Monster) and random.random() > 0.8 and entity != blocking_entity:
                         monster_direction_x = random.randint(-1, 1)
@@ -189,9 +182,8 @@ class Action:
                     player.current_defense = player.defense + item_to_use.bonus
                     engine.logs.append(f"You wear {article} {item_to_use.name} and your bonus armor is +{item_to_use.bonus}")
 
-                if item_type in ["food", "armor", "weapon"]:
-                    del player.inventory.items[item_type][item_index]
-                    if len(player.inventory.items[item_type]) == 0:
-                        del player.inventory.items[item_type]
+                del player.inventory.items[item_type][item_index]
+                if len(player.inventory.items[item_type]) == 0:
+                    del player.inventory.items[item_type]
 
                     engine.is_inventory_shown = False

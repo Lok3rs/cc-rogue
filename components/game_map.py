@@ -13,12 +13,14 @@ if TYPE_CHECKING:
 
 class GameMap:
 
-    def __init__(self, dict_of_elements: dict, entities: Set[Entity]):
+    def __init__(self, start_coords, dict_of_elements: dict, entities: Set[Entity], next_map: GameMap = None):
         self.width = settings.MAP['WIDTH']
         self.height = settings.MAP['HEIGHT']
         self.tiles = np.full((self.width, self.height), fill_value=tile_types.floor, order="F")
         self.dict_of_elements = dict_of_elements
         self.entities = entities
+        self.start_coords = start_coords
+        self.next_map = next_map
 
     def render(self, console: Console) -> None:
         """
