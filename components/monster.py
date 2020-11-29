@@ -23,9 +23,22 @@ MONSTER_TYPES = {
         "color": (72, 61, 139),
         "attack": 20,
         'exp': 70,
+    },
+
+    'dragon_boss':  {
+        "icon":
+'''
+  _a' /(     ,>
+~~_}\ \(    (
+     \(,_(,)'
+      _>, _>,''',
+
+        "max_hp": 700,
+        "color": (127, 0, 255),
+        "attack": 25,
+        'exp': 120,
     }
 }
-
 
 class Monster(Entity):
     def __init__(self, type: str, x: int = 0, y: int = 0, max_hp: int = None, attack: int = None, item: Item = None, block_movement: bool = True, talk_to_player: Optional = ''):

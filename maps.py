@@ -12,7 +12,12 @@ TALK = {
     'orc': ['Grrrrrrrrrr..!', 'You will die!', "Let's Fight!", 'You have no chance!'],
     'troll': ['Ha Ha Ha Ha', 'I will eat your flesh!', 'You choose wrong place...'],
     'dragon': ['Dragon: Hrrrrr.....'],
-    'gate': ['You need key!']
+    'gate': ['You need key!'],
+    'npc_map_C' :
+["""Dragon is unbeatable, but
+has some weak points!
+save us!
+"""]
 }
 
 ### MAP_A ###
@@ -201,12 +206,15 @@ MAP_B_ENTITIES = {
 
 ##### MAP_C ########
 
+
+
+
 MAP_C_START_COORDS = (0, 35)
 
 NPC_MAP_C = {
     'icon': 'N',
-    'start_x': 15,
-    'start_y': 35,
+    'start_x': 27,
+    'start_y': 38,
     'color': (255, 0, 0)
 }
 
@@ -227,6 +235,7 @@ MAP_C_CHAMBERS = {
 }
 
 MAP_C_ENTITIES = {
+    Entity(NPC_MAP_C['start_x'], NPC_MAP_C['start_y'], NPC_MAP_C['icon'], NPC_MAP_C['color'], block_movement=True, talk_to_player=choice(TALK['npc_map_C'])),
     Monster("orc", item=Item("food", "meet", bonus=30), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_C_CHAMBERS["room_1"]),
     Monster("orc", item=Item("food", "meet", bonus=30), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_C_CHAMBERS["room_1"]),
     Monster("orc", item=Item("weapon", "rusted sabre", bonus=5), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_C_CHAMBERS["room_2"]),
@@ -241,7 +250,9 @@ MAP_C_ENTITIES = {
     Monster("troll", item=Item("food", "apple", bonus=5), talk_to_player=choice(TALK['troll'])).put_on_map(MAP_C_CHAMBERS["room_6"]),
     Monster("orc", item=Item("food", "meet", bonus=30), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_C_CHAMBERS["room_7"]),
     Monster("troll", item=Item("food", "apple", bonus=5), talk_to_player=choice(TALK['troll'])).put_on_map(MAP_C_CHAMBERS["room_7"]),
-    Monster("dragon", item=Item("special", "golden key", bonus=1), talk_to_player=choice(TALK['dragon'])).put_on_map(MAP_C_CHAMBERS["room_1"]),
+    # Monster("dragon", item=Item("special", "golden key", bonus=1), talk_to_player=choice(TALK['dragon'])).put_on_map(MAP_C_CHAMBERS["room_1"]),
+    Monster(x=52, y=20, type="dragon_boss", item=Item("food", "meet", bonus=30), talk_to_player=choice(TALK['orc'])),
+
     Item("armor", "bronze armor", bonus=5).put_on_map(MAP_C_CHAMBERS["room_1"]),
     Item("weapon", "double-edged axe", bonus=5).put_on_map(MAP_C_CHAMBERS["room_1"]),
     Item("food", "apple", bonus=20).put_on_map(MAP_C_CHAMBERS["room_2"]),
