@@ -132,12 +132,13 @@ class Action:
                 item_to_use = ""
                 item_index = None
                 for key, values in items.items():
-                    for single_value in values:
-                        if count == index:
-                            item_type = key
-                            item_to_use = single_value
-                            item_index = values.index(single_value)
-                        count += 1
+                    if key in ["food", "armor", "weapon"]:
+                        for single_value in values:
+                            if count == index:
+                                item_type = key
+                                item_to_use = single_value
+                                item_index = values.index(single_value)
+                            count += 1
                 article = "an" if item_to_use.name in "aeiou" else "a"
 
                 if item_type == "food":
