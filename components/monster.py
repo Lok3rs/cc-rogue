@@ -29,7 +29,7 @@ MONSTER_TYPES = {
 
 
 class Monster(Entity):
-    def __init__(self, x: int, y: int, type: str, max_hp: int = None, attack: int = None, item: Item = None, block_movement: bool = True, talk_to_player: Optional = ''):
+    def __init__(self, type: str, x: int = 0, y: int = 0, max_hp: int = None, attack: int = None, item: Item = None, block_movement: bool = True, talk_to_player: Optional = ''):
         super().__init__(x, y, MONSTER_TYPES[type]["icon"], MONSTER_TYPES[type]["color"], block_movement)
         self.name = type
         self.max_hp = max_hp

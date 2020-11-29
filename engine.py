@@ -5,13 +5,12 @@ from tcod.console import Console
 import tcod
 import settings
 
-from game_map import GameMap
 from util import EventHandler
-from components import Entity, Player
+from components import Entity, Player, GameMap
 
 
 class Engine:
-    def __init__(self, entities: Set[Entity], event_handler: EventHandler, game_map: GameMap, player: Player, entity_x: int = 0, entity_y: int = 0):
+    def __init__(self, event_handler: EventHandler, game_map: GameMap, player: Player, entity_x: int = 0, entity_y: int = 0):
         """
         Responsible of drawing the map and entities, as well as handling the player’s input.
 
@@ -19,7 +18,7 @@ class Engine:
         :param event_handler: handle the events
         :param player:  is the player Entity. We have a separate reference to it outside of entities for ease of access.
         """
-        self.entities = entities
+        self.entities = game_map.entities
         self.event_handler = event_handler
         self.game_map = game_map
         self.player = player
@@ -58,18 +57,14 @@ class Engine:
         for entity in self.entities:
             console.print(entity.x, entity.y+settings.Y_MAP_START, entity.character, fg=entity.color)
 
-        # Draw the player's HP bar.
-        # tcod.console_print_ex(console, 8, 1, tcod.BKGND_NONE, tcod.CENTER, '{0}: {1}/{2}'.format("HP", self.player.hp, self.player.max_hp))
-        # tcod.console_print_ex(console, 25, 1, tcod.BKGND_NONE, tcod.CENTER,'{}: {}+{}'.format("ATK", self.player.attack, self.player.current_attack - self.player.attack))
-        # tcod.console_print_ex(console, 40, 1, tcod.BKGND_NONE, tcod.CENTER, '{}: {}+{}'.format("DEF", self.player.defense, self.player.current_defense-self.player.defense))
-        next_level_message = "NEXT LEVEL ENABLED"
-
-        console.print(3, 1, f'HP:{self.player.hp}/{self.player.max_hp} ARM:{self.player.defense}+{self.player.current_defense - self.player.defense} '
-                            f'ATT:{self.player.attack}+{self.player.current_attack - self.player.attack}       '
-                            f'LVL:{self.player.level} EXP: {self.player.current_exp} / {self.player.exp_to_level_up}       '
-                            f'{next_level_message if "special" in self.player.inventory.get_items() else ""}',
+        console.print(1, 1, f'HP:{self.player.hp}/{self.player.max_hp} '
+                            f'ARM:{self.player.defense}+{self.player.current_defense - self.player.defense} '
+                            f'ATT:{self.player.attack}+{self.player.current_attack - self.player.attack}   '
+                            f'LVL:{self.player.level} EXP:{self.player.current_exp}/{self.player.exp_to_level_up}',
                             bg=(0, 0, 0), fg=(0, 255, 0)
-                            )
+                      )
+
+        console.print(61, 1, f'{"NEXT LEVEL ENABLED" if self.player.has_gate_key() else ""}', bg=(0, 0, 0), fg=(0, 255, 0))
 
         y = settings.SCREEN["HEIGHT"] - 1
         messages_count = 1

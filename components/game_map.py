@@ -3,17 +3,17 @@ from __future__ import annotations
 import numpy as np
 from tcod.console import Console
 import settings
-from typing import Tuple, Iterable, Optional, TYPE_CHECKING
+from typing import Tuple, Set, TYPE_CHECKING
 
 import tile_types
 
 if TYPE_CHECKING:
-    from components.entity import Entity
+    from components import Entity
 
 
 class GameMap:
 
-    def __init__(self, dict_of_elements: dict, entities: Iterable[Entity] = ()):
+    def __init__(self, dict_of_elements: dict, entities: Set[Entity]):
         self.width = settings.MAP['WIDTH']
         self.height = settings.MAP['HEIGHT']
         self.tiles = np.full((self.width, self.height), fill_value=tile_types.floor, order="F")
@@ -27,21 +27,19 @@ class GameMap:
         """
         console.tiles_rgb[0:self.width, settings.Y_MAP_START:self.height+settings.Y_MAP_START] = self.tiles["dark"]
 
-    @property
     def generate_map(self):
-        map = GameMap(self.dict_of_elements)
         for element in self.dict_of_elements:
-            map.tiles[self.dict_of_elements[element]] = tile_types.dungeon
-        return map
+            self.tiles[self.dict_of_elements[element]] = tile_types.dungeon
+        return self
 
-    def get_blocking_entity(self, entities, x: int, y: int) -> Optional[Entity]:
-        for entity in entities:
+    def get_blocking_entity(self, x: int, y: int):
+        for entity in self.entities:
             if entity.block_movement and entity.x == x and entity.y == y:
                 return entity
         return None
 
 
-class DungeonsAndChambers:
+class Chamber:
     def __init__(self, x: int, y: int, width: int, height: int):
         self.x1 = x
         self.y1 = y
@@ -51,8 +49,5 @@ class DungeonsAndChambers:
         self.range_height = slice(self.y1, self.y2)
 
     @property
-    def get_size_of_element(self) -> Tuple[slice, slice]:
-        return self.range_width, self.range_height
-        # (x1, x2), (y1, y2)
-        # (0:33), (10:15)
-        # width, height
+    def get_range(self) -> Tuple[slice, slice]:
+        return self.range_width, self.range_height  # (x1:x2), (y1:y2)

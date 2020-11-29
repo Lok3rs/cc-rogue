@@ -25,3 +25,9 @@ class Player(Entity):
         self.exp_to_level_up = EXP_TO_LEVEL_UP
         self.current_exp = 0
 
+    def has_gate_key(self):
+        if "special" in self.inventory.items:
+            if 1 in [item.bonus for item in self.inventory.items["special"]]:
+                return True
+        else:
+            return False

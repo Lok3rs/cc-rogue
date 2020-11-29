@@ -1,10 +1,8 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from components import Player, Item
-from components.monsters import Monster
-import components.maps as maps
-
+from components import Player, Item, Monster
+import maps
 
 import random
 import math
@@ -35,8 +33,8 @@ class Action:
                     engine.logs.append("Well, you cannot go through the wall.")
                     return None  # Destination is blocked by a tile.
 
-                if engine.game_map.get_blocking_entity(engine.entities, dest_x, dest_y):
-                    blocking_entity = engine.game_map.get_blocking_entity(engine.entities, dest_x, dest_y)
+                if engine.game_map.get_blocking_entity(dest_x, dest_y):
+                    blocking_entity = engine.game_map.get_blocking_entity(dest_x, dest_y)
                     engine.x = dest_x
                     engine.y = dest_y
                     message = blocking_entity.talk_to_player
@@ -45,8 +43,8 @@ class Action:
                     if blocking_entity.is_gate:
                         if "special" in player.inventory.get_items():
                             if engine.current_round == 1:
-                                engine.entities = maps.entities_map_C
-                                engine.game_map = maps.map_C
+                                engine.entities = maps.MAP_C.entities
+                                engine.game_map = maps.MAP_C
                                 engine.entities.add(player)
                                 player.x = 0
                                 player.y = 35
@@ -57,8 +55,8 @@ class Action:
                                         break
                                 return
                             if engine.current_round == 2:
-                                engine.entities = maps.entities_map_A
-                                engine.game_map = maps.map_A
+                                engine.entities = maps.MAP_A.entities
+                                engine.game_map = maps.MAP_A
                                 engine.entities.add(player)
                                 player.x = 0
                                 player.y = 5
