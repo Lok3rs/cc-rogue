@@ -22,7 +22,7 @@ class GameMap:
         self.entities = entities
         self.start_coords = start_coords
         self.next_map = next_map
-        self.explore_mode = True
+        self.explore_mode = False
 
     def render(self, console: Console) -> None:
         """

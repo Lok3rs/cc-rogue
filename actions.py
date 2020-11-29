@@ -96,7 +96,7 @@ class Action:
                             else:
                                 enemy_attack *= 1.5
                                 engine.logs.append(f"CRITICAL HIT RECEIVED! {blocking_entity.name.title()}'s piercing strike caused {math.floor(enemy_attack) - player.defense} damage ")
-                            player.hp -= math.floor(enemy_attack) - player.defense
+                            player.hp -= max(math.floor(enemy_attack) - player.defense, 0)
 
                             if player.hp <= 0:
                                 player.hp = 0
@@ -104,7 +104,6 @@ class Action:
                                 engine.weapon_display.append('DEAD')
 
                         engine.caused_damage.append(f'+{math.floor(current_attack)}')
-
 
                 else:
                     player.move(self.direction_x, self.direction_y)
@@ -167,7 +166,7 @@ class Action:
                 index = int(self.type) - 1
                 items = player.inventory.get_items()
                 item_type = ""
-                item_to_use = ""
+                item_to_use = None
                 item_index = None
                 for key, values in items.items():
                     if key in ["food", "armor", "weapon"]:
@@ -177,6 +176,10 @@ class Action:
                                 item_to_use = single_value
                                 item_index = values.index(single_value)
                             count += 1
+
+                if not item_to_use:
+                    return
+                
                 article = "an" if item_to_use.name in "aeiou" else "a"
 
                 if item_type == "food":
