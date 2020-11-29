@@ -121,9 +121,10 @@ class Action:
                 engine.is_inventory_shown = False
                 for single_entity in engine.entities:
                     if isinstance(single_entity, Item) and player.x == single_entity.x and player.y == single_entity.y:
-                        messsage = player.inventory.add(single_entity)
-                        engine.entities.remove(single_entity)
-                        engine.logs.append(messsage)
+                        result = player.inventory.add(single_entity)
+                        if (result["is_added"]):
+                            engine.entities.remove(single_entity)
+                        engine.logs.append(result["message"])
                         break
                 else:
                     engine.logs.append("There is nothing to pick up here")
