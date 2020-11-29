@@ -17,12 +17,12 @@ class Inventory:
                     self.items[item.type].append(item)
                 else:
                     adverb = "mutch" if item.type == "food " else "many"
-                    return f"You have too {adverb} {item.type}s in your rucksack"
+                    return {"succeeded": False, "message": f"You have too {adverb} {item.type}s in your rucksack"}
             else:
                 self.items[item.type] = [item]
-            return f"You pick up the {item.name}"
+            return {"succeeded": True, "message": f"You pick up the {item.name}"}
         else:
-            return "Your inventory is full"
+            return {"succeeded": False, "message": "Your inventory is full"}
 
     def get_items(self):
         return self.items
