@@ -10,15 +10,14 @@ ITEM_TYPES = {
 
 
 class Item(Entity):
-    def __init__(self, x, y, type, name, bonus=0, index=0):
+    def __init__(self, type, name, x=0, y=0, bonus=0):
         if type not in ITEM_TYPES:
-            raise ValueError
+            raise ValueError("Wrong type of item")
 
         super().__init__(x, y, ITEM_TYPES[type]["icon"], ITEM_TYPES[type]["color"])
         self.name = name
         self.type = type
         self.bonus = bonus
-        self.index = index
 
     def get_description(self):
         attribute = None

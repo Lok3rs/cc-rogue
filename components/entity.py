@@ -1,4 +1,7 @@
-from typing import Tuple, Optional
+from __future__ import annotations
+
+from typing import Tuple
+from random import randint
 
 
 class Entity:
@@ -19,3 +22,8 @@ class Entity:
         # Move the entity by a given amount
         self.x += direction_x
         self.y += direction_y
+
+    def put_on_map(self, chamber_range: Tuple[slice, slice]):
+        self.x = randint(chamber_range[0].start, chamber_range[0].stop-1)
+        self.y = randint(chamber_range[1].start, chamber_range[1].stop-1)
+        return self
