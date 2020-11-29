@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from components import Player, Item, Monster
-import maps
 
 import random
 import math
@@ -28,7 +27,7 @@ class Action:
                 dest_x = player.x + self.direction_x
                 dest_y = player.y + self.direction_y
                 blocking_entity = None
-                
+
                 print(f"move: {dest_x}, {dest_y}")
 
                 if not engine.game_map.tiles["walkable"][dest_x, dest_y]:
@@ -58,7 +57,7 @@ class Action:
                             else:
                                 engine.logs.append("Next levels under construction")
                             return
-                        
+
                     if isinstance(blocking_entity, Monster):  # attack
                         current_attack = random.randint(player.attack - 5, player.attack + 5)
                         if random.random() > 0.2:
@@ -69,7 +68,6 @@ class Action:
                             current_attack *= 1.5
                             engine.logs.append(f"CRITICAL HIT! {blocking_entity.name.title()}'s bleeding! Caused {math.floor(current_attack)} damage.")
                         blocking_entity.current_hp -= math.floor(current_attack)
-
 
                         if blocking_entity.current_hp <= 0:
                             player.current_exp += blocking_entity.exp

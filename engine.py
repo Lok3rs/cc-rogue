@@ -58,13 +58,13 @@ class Engine:
         self.game_map.render(console)
 
         for entity in self.entities:
-            console.print(entity.x, entity.y+settings.Y_MAP_START, entity.character, fg=entity.color)
+            console.print(entity.x, entity.y + settings.Y_MAP_START, entity.character, fg=entity.color)
 
         console.print(1, 1, f'HP:{self.player.hp}/{self.player.max_hp} '
                             f'DEF:{self.player.defense}+{self.player.current_defense - self.player.defense} '
                             f'ATK:{self.player.attack}+{self.player.current_attack - self.player.attack}   '
                             f'LVL:{self.player.level} EXP:{self.player.current_exp}/{self.player.exp_to_level_up}',
-                            bg=(0, 0, 0), fg=(0, 255, 0)
+                      bg=(0, 0, 0), fg=(0, 255, 0)
                       )
 
         console.print(61, 1, f'{"NEXT LEVEL ENABLED" if self.player.has_gate_key() else ""}', bg=(0, 0, 0), fg=(0, 255, 0))
@@ -85,14 +85,13 @@ class Engine:
                 break
 
         for message in self.talk_to:
-            console.print(self.x - 10, self.y, message, bg=(255, 255, 255), fg=(0, 0, 0))
+            console.print(self.x - 5, self.y, message, bg=(255, 255, 255), fg=(0, 0, 0))
 
         for damage in self.caused_damage:
-            console.print(self.x+1, self.y+2, damage, fg=(255, 128, 0))
+            console.print(self.x + 1, self.y + 2, damage, fg=(255, 128, 0))
 
         for weapon in self.weapon_display:
-            console.print(self.player.x, self.player.y+3, weapon, fg=(255, 0, 0))
-
+            console.print(self.player.x, self.player.y + 3, weapon, fg=(255, 0, 0))
 
         context.present(console)
         console.clear()

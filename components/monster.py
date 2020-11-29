@@ -2,9 +2,8 @@ from .entity import Entity
 from components import Item
 from typing import Optional
 
-
 MONSTER_TYPES = {
-    "orc":  {
+    "orc": {
         "icon": "O",
         "max_hp": 90,
         "color": (0, 255, 0),
@@ -21,7 +20,7 @@ MONSTER_TYPES = {
     "dragon": {
         "icon": "D",
         "max_hp": 400,
-        "color": (120, 255, 70),
+        "color": (72, 61, 139),
         "attack": 20,
         'exp': 70,
     }

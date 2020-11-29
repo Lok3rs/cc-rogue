@@ -1,7 +1,6 @@
 from .entity import Entity
 from .inventory import Inventory
 
-
 ICON = 'Q'
 COLOR = (255, 255, 255)
 MAX_HP = 100

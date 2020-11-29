@@ -1,6 +1,5 @@
 from .entity import Entity
 
-
 ITEM_TYPES = {
     "special": {"icon": "@", "color": (235, 97, 35)},
     "weapon": {"icon": "w", "color": (0, 106, 212)},
