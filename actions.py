@@ -24,6 +24,8 @@ class Action:
             if self.type == "move":
                 engine.logs.clear()
                 engine.talk_to.clear()
+                engine.caused_damage.clear()
+                engine.weapon_display.clear()
                 engine.is_inventory_shown = False
                 dest_x = player.x + self.direction_x
                 dest_y = player.y + self.direction_y
@@ -70,10 +72,13 @@ class Action:
                         current_attack = random.randint(player.attack - 5, player.attack + 5)
                         if random.random() > 0.2:
                             engine.logs.append(f"You attacked {blocking_entity.name} and caused {current_attack} damage.")
+
+
                         else:
                             current_attack *= 1.5
                             engine.logs.append(f"CRITICAL HIT! {blocking_entity.name.title()}'s bleeding! Caused {math.floor(current_attack)} damage.")
                         blocking_entity.current_hp -= math.floor(current_attack)
+
 
                         if blocking_entity.current_hp <= 0:
                             player.current_exp += blocking_entity.exp
@@ -98,6 +103,7 @@ class Action:
                             enemy_attack = random.randint(blocking_entity.attack - 5, blocking_entity.attack + 5)
                             if random.random() > 0.2:
                                 engine.logs.append(f"{blocking_entity.name.title()} attacked you and caused {enemy_attack - player.defense} damage.")
+                                engine.weapon_display.append(f'!')
                             else:
                                 enemy_attack *= 1.5
                                 engine.logs.append(f"CRITICAL HIT RECEIVED! {blocking_entity.name.title()}'s piercing strike caused {math.floor(enemy_attack) - player.defense} damage ")
@@ -106,6 +112,11 @@ class Action:
                             if player.hp <= 0:
                                 player.hp = 0
                                 engine.logs.append(f"You died! {blocking_entity.name.title()} killed you...")
+                                engine.weapon_display.append('DEAD')
+
+                        engine.caused_damage.append(f'+{math.floor(current_attack)}')
+
+
                 else:
                     player.move(self.direction_x, self.direction_y)
 

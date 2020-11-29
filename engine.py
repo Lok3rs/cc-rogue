@@ -26,6 +26,8 @@ class Engine:
         self.logs = []
         self.is_inventory_shown = False
         self.talk_to = []
+        self.caused_damage = []
+        self.weapon_display = []
         self.x = entity_x
         self.y = entity_y
         self.current_round = 1
@@ -59,13 +61,10 @@ class Engine:
             console.print(entity.x, entity.y+settings.Y_MAP_START, entity.character, fg=entity.color)
 
         # Draw the player's HP bar.
-        # tcod.console_print_ex(console, 8, 1, tcod.BKGND_NONE, tcod.CENTER, '{0}: {1}/{2}'.format("HP", self.player.hp, self.player.max_hp))
-        # tcod.console_print_ex(console, 25, 1, tcod.BKGND_NONE, tcod.CENTER,'{}: {}+{}'.format("ATK", self.player.attack, self.player.current_attack - self.player.attack))
-        # tcod.console_print_ex(console, 40, 1, tcod.BKGND_NONE, tcod.CENTER, '{}: {}+{}'.format("DEF", self.player.defense, self.player.current_defense-self.player.defense))
         next_level_message = "NEXT LEVEL ENABLED"
 
-        console.print(3, 1, f'HP:{self.player.hp}/{self.player.max_hp} ARM:{self.player.defense}+{self.player.current_defense - self.player.defense} '
-                            f'ATT:{self.player.attack}+{self.player.current_attack - self.player.attack}       '
+        console.print(3, 1, f'HP:{self.player.hp}/{self.player.max_hp} DEF:{self.player.defense}+{self.player.current_defense - self.player.defense} '
+                            f'ATK:{self.player.attack}+{self.player.current_attack - self.player.attack}       '
                             f'LVL:{self.player.level} EXP: {self.player.current_exp} / {self.player.exp_to_level_up}       '
                             f'{next_level_message if "special" in self.player.inventory.get_items() else ""}',
                             bg=(0, 0, 0), fg=(0, 255, 0)
@@ -87,7 +86,14 @@ class Engine:
                 break
 
         for message in self.talk_to:
-            console.print(self.x - 10, self.y+1, message, bg=(255, 255, 255), fg=(0, 0, 0))
+            console.print(self.x - 10, self.y, message, bg=(255, 255, 255), fg=(0, 0, 0))
+
+        for damage in self.caused_damage:
+            console.print(self.x+1, self.y+2, damage, fg=(255, 128, 0))
+
+        for weapon in self.weapon_display:
+            console.print(self.player.x, self.player.y+3, weapon, fg=(255, 0, 0))
+
 
         context.present(console)
         console.clear()
