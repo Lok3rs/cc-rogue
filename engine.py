@@ -63,7 +63,10 @@ class Engine:
         # tcod.console_print_ex(console, 40, 1, tcod.BKGND_NONE, tcod.CENTER, '{}: {}+{}'.format("DEF", self.player.defense, self.player.current_defense-self.player.defense))
 
         console.print(3, 1, f'HP:{self.player.hp}/{self.player.max_hp} ARM:{self.player.defense}+{self.player.current_defense - self.player.defense} '
-                            f'ATT:{self.player.attack}+{self.player.current_attack - self.player.attack}', bg=(0, 0, 0), fg=(0, 255, 0))
+                            f'ATT:{self.player.attack}+{self.player.current_attack - self.player.attack}              '
+                            f'LVL:{self.player.level} EXP: {self.player.current_exp} / {self.player.exp_to_level_up}',
+                            bg=(0, 0, 0), fg=(0, 255, 0)
+                            )
 
         y = settings.SCREEN["HEIGHT"] - 1
         messages_count = 1

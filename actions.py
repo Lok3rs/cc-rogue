@@ -51,6 +51,18 @@ class Action:
                         blocking_entity.current_hp -= math.floor(current_attack)
 
                         if blocking_entity.current_hp <= 0:
+                            player.current_exp += blocking_entity.exp
+                            if player.current_exp >= player.exp_to_level_up:
+                                player.current_exp = player.current_exp - player.exp_to_level_up
+                                player.level += 1
+                                player.exp_to_level_up += 50
+                                player.max_hp += 30
+                                player.attack += 10
+                                player.current_attack += 10
+                                player.defense += 10
+                                player.current_defense += 10
+                                engine.logs.append(f"WOW! Level up! Your current level is {player.level}")
+
                             engine.logs.append(f"You've killed {blocking_entity.name}")
                             if (blocking_entity.item):
                                 blocking_entity.item.x = blocking_entity.x
