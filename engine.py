@@ -28,6 +28,7 @@ class Engine:
         self.talk_to = []
         self.x = entity_x
         self.y = entity_y
+        self.current_round = 1
 
     def handle_events(self, events: Iterable[Any]) -> None:
         """
@@ -61,10 +62,12 @@ class Engine:
         # tcod.console_print_ex(console, 8, 1, tcod.BKGND_NONE, tcod.CENTER, '{0}: {1}/{2}'.format("HP", self.player.hp, self.player.max_hp))
         # tcod.console_print_ex(console, 25, 1, tcod.BKGND_NONE, tcod.CENTER,'{}: {}+{}'.format("ATK", self.player.attack, self.player.current_attack - self.player.attack))
         # tcod.console_print_ex(console, 40, 1, tcod.BKGND_NONE, tcod.CENTER, '{}: {}+{}'.format("DEF", self.player.defense, self.player.current_defense-self.player.defense))
+        next_level_message = "NEXT LEVEL ENABLED"
 
         console.print(3, 1, f'HP:{self.player.hp}/{self.player.max_hp} ARM:{self.player.defense}+{self.player.current_defense - self.player.defense} '
-                            f'ATT:{self.player.attack}+{self.player.current_attack - self.player.attack}              '
-                            f'LVL:{self.player.level} EXP: {self.player.current_exp} / {self.player.exp_to_level_up}',
+                            f'ATT:{self.player.attack}+{self.player.current_attack - self.player.attack}       '
+                            f'LVL:{self.player.level} EXP: {self.player.current_exp} / {self.player.exp_to_level_up}       '
+                            f'{next_level_message if "special" in self.player.inventory.get_items() else ""}',
                             bg=(0, 0, 0), fg=(0, 255, 0)
                             )
 

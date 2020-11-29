@@ -161,8 +161,8 @@ player_map_B = Player(START_MAP_B['start_x'], START_MAP_B['start_y'])
 entities_map_B = {
     player_map_B,
     Entity(NPC_MAP_B['start_x'], NPC_MAP_B['start_y'], NPC_MAP_B['icon'], NPC_MAP_B['color'], block_movement=True, talk_to_player=choice(talk['npc'])),
-    Entity(GATE_MAP_B_1['start_x'], GATE_MAP_B_1['start_y'], GATE['icon'], GATE['color'], block_movement=True, talk_to_player=choice(talk['gate'])),
-    Entity(GATE_MAP_B_2['start_x'], GATE_MAP_B_2['start_y'], GATE['icon_2'], GATE['color'], block_movement=True, talk_to_player=choice(talk['gate'])),
+    Entity(GATE_MAP_B_1['start_x'], GATE_MAP_B_1['start_y'], GATE['icon'], GATE['color'], is_gate=True, block_movement=True, talk_to_player=choice(talk['gate'])),
+    Entity(GATE_MAP_B_2['start_x'], GATE_MAP_B_2['start_y'], GATE['icon_2'], GATE['color'], is_gate=True, block_movement=True, talk_to_player=choice(talk['gate'])),
     Monster(randint(11, 19), randint(31, 39), "orc", item=Item(8, 1, "food", "meet", 30, index=1),talk_to_player=choice(talk['orc'])),
     Monster(randint(4, 12), randint(4, 12), "orc", item=Item(8, 1, "food", "meet", 30, index=1),talk_to_player=choice(talk['orc'])),
     Monster(randint(4, 12), randint(4, 12), "orc", item=Item(0, 0, "weapon", "rusted sabre", 5), talk_to_player=choice(talk['orc'])),
@@ -178,8 +178,9 @@ entities_map_B = {
     Monster(randint(26, 33), randint(4, 7), "orc", item=Item(0, 0, "food", "meet", 30), talk_to_player=choice(talk['orc'])),
     Monster(randint(35, 44), randint(34, 42), "troll", item=Item(0, 0, "food", "apple", 5),  talk_to_player=choice(talk['troll'])),
     Monster(randint(35, 44), randint(34, 42), "orc", item=Item(0, 0, "food", "meet", 30), talk_to_player=choice(talk['orc'])),
-    Monster(randint(66, 74), randint(6, 17), "dragon", item=Item(0, 0, "armor", "plate armor", 25, index=6), talk_to_player=choice(talk['dragon'])),
-    Item(randint(25, 34), randint(4, 6), "special", "rusty key"),
+    Monster(randint(66, 74), randint(6, 17), "dragon", item=Item(0, 0, "special", "rusty key", 25, index=6), talk_to_player=choice(talk['dragon'])),
+    Item(randint(25, 34), randint(4, 6), "armor", "bronze armor", 5),
+    Item(0, 35, "special", "key"),
     Item(randint(30, 36), randint(16, 22), "weapon", "double-edged axe", 5),
     Item(randint(3, 12), randint(3, 12), "food", "apple", 20),
     Item(randint(13, 17), randint(20, 24), "food", "bread", 50)
@@ -190,8 +191,13 @@ map_B = GameMap(MAP_B_CHAMBERS).generate_map
 player_map_C = Player(START_MAP_C['start_x'], START_MAP_C['start_y'])
 
 entities_map_C = {
-    player_map_C,
-    Entity(NPC_MAP_C['start_x'], NPC_MAP_C['start_y'], NPC_MAP_C['icon'], NPC_MAP_C['color'])
+    Entity(NPC_MAP_C['start_x'], NPC_MAP_C['start_y'], NPC_MAP_C['icon'], NPC_MAP_C['color']),
+    Entity(GATE_MAP_C['start_x']-20, GATE_MAP_C['start_y'], GATE['icon'], GATE['color'], is_gate=True, block_movement=True, talk_to_player=choice(talk['gate'])),
+    Item(0, 35, "special", "rusty key")
 }
 
+entities_map_A = set()
+
 map_C = GameMap(MAP_C).generate_map
+
+map_A = GameMap(MAP_A).generate_map

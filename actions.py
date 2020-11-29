@@ -3,6 +3,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from components import Player, Item
 from components.monsters import Monster
+import components.maps as maps
+
 
 import random
 import math
@@ -38,9 +40,32 @@ class Action:
                     engine.x = dest_x
                     engine.y = dest_y
                     message = blocking_entity.talk_to_player
-                    engine.talk_to.append(message)
+                    engine.talk_to.append(message) if not blocking_entity.is_gate or not "special" in player.inventory.get_items() else None
 
-                    # ATTACK
+                    if blocking_entity.is_gate:
+                        if "special" in player.inventory.get_items():
+                            if engine.current_round == 1:
+                                engine.entities = maps.entities_map_C
+                                engine.game_map = maps.map_C
+                                engine.entities.add(player)
+                                player.x = 0
+                                player.y = 35
+                                engine.current_round += 1
+                                for item in player.inventory.get_items():
+                                    if item == "special":
+                                        del player.inventory.items[item]
+                                        break
+                                return
+                            if engine.current_round == 2:
+                                engine.entities = maps.entities_map_A
+                                engine.game_map = maps.map_A
+                                engine.entities.add(player)
+                                player.x = 0
+                                player.y = 5
+                                engine.current_round += 1
+                            if engine.current_round == 3:
+                                pass
+                        # ATTACK
                     if isinstance(blocking_entity, Monster):
                         current_attack = random.randint(player.attack - 5, player.attack + 5)
                         if random.random() > 0.2:
@@ -144,12 +169,13 @@ class Action:
                 item_to_use = ""
                 item_index = None
                 for key, values in items.items():
-                    for single_value in values:
-                        if count == index:
-                            item_type = key
-                            item_to_use = single_value
-                            item_index = values.index(single_value)
-                        count += 1
+                    if key in ["food", "armor", "weapon"]:
+                        for single_value in values:
+                            if count == index:
+                                item_type = key
+                                item_to_use = single_value
+                                item_index = values.index(single_value)
+                            count += 1
                 article = "an" if item_to_use.name in "aeiou" else "a"
 
                 if item_type == "food":
