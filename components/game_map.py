@@ -17,17 +17,27 @@ class GameMap:
         self.width = settings.MAP['WIDTH']
         self.height = settings.MAP['HEIGHT']
         self.tiles = np.full((self.width, self.height), fill_value=tile_types.floor, order="F")
+        self.explored_tiles = np.full((self.width, self.height), fill_value=False, order="F")  # tiles the player can see
         self.dict_of_elements = dict_of_elements
         self.entities = entities
         self.start_coords = start_coords
         self.next_map = next_map
+        self.explore_mode = True
 
     def render(self, console: Console) -> None:
         """
         Using the Console tcod class’s tiles_rgb method, we can quickly render the entire map.
         This method proves much faster than using the console.print method that we use for the individual entities.
         """
-        console.tiles_rgb[0:self.width, settings.Y_MAP_START:self.height + settings.Y_MAP_START] = self.tiles["dark"]
+
+        if self.explore_mode:
+            console.tiles_rgb[0:self.width, settings.Y_MAP_START:self.height + settings.Y_MAP_START] = np.select(
+                condlist=[self.explored_tiles],
+                choicelist=[self.tiles["light"]],
+                default=tile_types.DARK
+            )
+        else:
+            console.tiles_rgb[0:self.width, settings.Y_MAP_START:self.height + settings.Y_MAP_START] = self.tiles["light"]
 
     def generate_map(self):
         for element in self.dict_of_elements:

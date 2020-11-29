@@ -7,6 +7,7 @@ import settings
 
 from util import EventHandler
 from components import Player, GameMap
+from tcod.map import compute_fov
 
 
 class Engine:
@@ -32,6 +33,9 @@ class Engine:
         self.y = entity_y
         self.current_round = 1
 
+        # to show something at the beginning of the game
+        self.update_explored_tiles()
+
     def handle_events(self, events: Iterable[Any]) -> None:
         """
          Pass the events to it so it can iterate through them, and it uses self.event_handler to handle the events
@@ -49,16 +53,32 @@ class Engine:
                 continue
 
             action.perform(self, self.player)
+            self.update_explored_tiles()
+
+    def update_explored_tiles(self) -> None:
+        """Recompute the visible area based on the players point of view."""
+        self.game_map.explored_tiles |= compute_fov(
+            self.game_map.tiles["transparent"],
+            (self.player.x, self.player.y),
+            light_walls=False,
+            radius=4,
+        )
 
     def render(self, console: Console, context: Context) -> None:
         """
         This handles drawing our screen. Iterates through the self.entities and prints them to their proper locations,
         then present the context, and clears the console
         """
+
         self.game_map.render(console)
 
         for entity in self.entities:
-            console.print(entity.x, entity.y + settings.Y_MAP_START, entity.character, fg=entity.color)
+            if self.game_map.explore_mode:
+                # only print entities that are in the explored area
+                if self.game_map.explored_tiles[entity.x, entity.y]:
+                    console.print(entity.x, entity.y + settings.Y_MAP_START, entity.character, fg=entity.color)
+            else:
+                console.print(entity.x, entity.y + settings.Y_MAP_START, entity.character, fg=entity.color)
 
         console.print(1, 1, f'HP:{self.player.hp}/{self.player.max_hp} '
                             f'DEF:{self.player.defense}+{self.player.current_defense - self.player.defense} '
