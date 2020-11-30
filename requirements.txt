@@ -1,2 +1,3 @@
 tcod>=11.13
 numpy==1.19.3
+simpleaudio==1.0.4

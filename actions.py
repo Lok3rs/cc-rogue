@@ -1,14 +1,15 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from components import Player, Item, Monster
+from components import Player, Item, Monster, SOUNDS
+
 
 import random
 import math
 
+
 if TYPE_CHECKING:
     from engine import Engine
-
 
 class Action:
     def __init__(self, direction_x: int, direction_y: int, type):
@@ -67,14 +68,17 @@ class Action:
                         current_attack = random.randint(player.attack - 5, player.attack + 5)
                         if random.random() > 0.2:
                             engine.attack_log.append(f"You attacked {blocking_entity.name} and caused {current_attack} damage.")
+                            SOUNDS['sword'].play()
 
                         else:
                             current_attack *= 1.5
+                            SOUNDS['crit'].play()
                             engine.attack_log.append(f"CRITICAL HIT! {blocking_entity.name.title()}'s bleeding! Caused {math.floor(current_attack)} damage.")
                         blocking_entity.current_hp -= math.floor(current_attack)
 
                         # player level up
                         if blocking_entity.current_hp <= 0:
+                            SOUNDS['die'].play()
                             player.current_exp += blocking_entity.exp
                             if player.current_exp >= player.exp_to_level_up:
                                 player.current_exp = player.current_exp - player.exp_to_level_up
