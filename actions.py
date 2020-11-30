@@ -36,8 +36,8 @@ class Action:
 
                 if engine.game_map.get_blocking_entity(dest_x, dest_y):
                     blocking_entity = engine.game_map.get_blocking_entity(dest_x, dest_y)
-                    engine.x = dest_x
-                    engine.y = dest_y
+                    engine.entity_x = dest_x
+                    engine.entity_y = dest_y
                     message = blocking_entity.talk_to_player
                     engine.talk_to.append(message) if not blocking_entity.is_gate or not player.has_gate_key() else None
 
@@ -58,7 +58,8 @@ class Action:
                                 engine.logs.append("Next levels under construction")
                             return
 
-                    if isinstance(blocking_entity, Monster):  # attack
+                    # attack on monster
+                    if isinstance(blocking_entity, Monster):
                         current_attack = random.randint(player.attack - 5, player.attack + 5)
                         if random.random() > 0.2:
                             engine.logs.append(f"You attacked {blocking_entity.name} and caused {current_attack} damage.")
@@ -69,6 +70,7 @@ class Action:
                             engine.logs.append(f"CRITICAL HIT! {blocking_entity.name.title()}'s bleeding! Caused {math.floor(current_attack)} damage.")
                         blocking_entity.current_hp -= math.floor(current_attack)
 
+                        # player level up
                         if blocking_entity.current_hp <= 0:
                             player.current_exp += blocking_entity.exp
                             if player.current_exp >= player.exp_to_level_up:
@@ -82,6 +84,7 @@ class Action:
                                 player.current_defense += 10
                                 engine.logs.append(f"WOW! Level up! Your current level is {player.level}")
 
+                            # drop item by killed monster
                             engine.logs.append(f"You've killed {blocking_entity.name}")
                             if (blocking_entity.item):
                                 blocking_entity.item.x = blocking_entity.x
@@ -148,7 +151,6 @@ class Action:
                 if len(items) > 0:
                     cur_i = 0
                     for item_type in items:
-                        items_by_type_str = ""
                         if item_type in ["food", "weapon", "armor"]:
 
                             items_by_type_str = ", ".join(
@@ -160,6 +162,7 @@ class Action:
                 else:
                     engine.logs.append("Your inventory is empty")
 
+
             elif self.type in [char for char in "1234567890"] and engine.is_inventory_shown is True:
                 engine.logs.clear()
                 count = 0
@@ -168,6 +171,7 @@ class Action:
                 item_type = ""
                 item_to_use = None
                 item_index = None
+
                 for key, values in items.items():
                     if key in ["food", "armor", "weapon"]:
                         for single_value in values:
@@ -179,7 +183,7 @@ class Action:
 
                 if not item_to_use:
                     return
-                
+
                 article = "an" if item_to_use.name in "aeiou" else "a"
 
                 if item_type == "food":

@@ -13,8 +13,8 @@ TALK = {
     'troll': ['Ha Ha Ha Ha', 'I will eat your flesh!', 'You choose wrong place...'],
     'dragon': ['Dragon: Hrrrrr.....'],
     'gate': ['You need key!'],
-    'npc_map_C' :
-["""Dragon is unbeatable, but
+    'npc_map_C':
+        ["""Dragon is unbeatable, but
 has some weak points!
 save us!
 """]
@@ -113,7 +113,6 @@ MAP_A_ENTITIES = {
     Item("weapon", "double-edged axe", bonus=5).put_on_map(MAP_A_CHAMBERS["room_7"]),
     Item("food", "apple", bonus=20).put_on_map(MAP_A_CHAMBERS["room_6"]),
     Item("food", "bread", bonus=50).put_on_map(MAP_A_CHAMBERS["room_4"]),
-    Item("special", "rusty key", bonus=1).put_on_map(MAP_A_CHAMBERS["room_1"]),
     Item("special", "silver key", bonus=1).put_on_map(MAP_A_CHAMBERS["room_1"])
 }
 
@@ -205,10 +204,6 @@ MAP_B_ENTITIES = {
 }
 
 ##### MAP_C ########
-
-
-
-
 MAP_C_START_COORDS = (0, 35)
 
 NPC_MAP_C = {

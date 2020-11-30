@@ -29,8 +29,8 @@ class Engine:
         self.talk_to = []
         self.caused_damage = []
         self.weapon_display = []
-        self.x = entity_x
-        self.y = entity_y
+        self.entity_x = entity_x
+        self.entity_y = entity_y
         self.current_round = 1
 
         # to show something at the beginning of the game
@@ -105,10 +105,12 @@ class Engine:
                 break
 
         for message in self.talk_to:
-            console.print(self.x - 5, self.y, message, bg=(255, 255, 255), fg=(0, 0, 0))
+            console.print((self.entity_x - 17 if self.entity_x >= 65 and len(message) >= 14
+                           else self.entity_x - 10 if self.entity_x >= 65 else self.entity_x - 4),
+                          self.entity_y, message, bg=(255, 255, 255), fg=(0, 0, 0))
 
         for damage in self.caused_damage:
-            console.print(self.x + 1, self.y + 2, damage, fg=(255, 128, 0))
+            console.print(self.entity_x + 1, self.entity_y + 2, damage, fg=(255, 128, 0))
 
         for weapon in self.weapon_display:
             console.print(self.player.x, self.player.y + 3, weapon, fg=(255, 0, 0))
