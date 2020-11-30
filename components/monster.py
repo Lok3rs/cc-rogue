@@ -7,38 +7,39 @@ MONSTER_TYPES = {
         "icon": "O",
         "max_hp": 90,
         "color": (0, 255, 0),
-        "attack": 10,
+        "attack": 15,
         'exp': 20,
     },
     "troll": {
         "icon": "T",
-        "max_hp": 60,
+        "max_hp": 70,
         "color": (255, 255, 0),
-        "attack": 7,
+        "attack": 12,
         'exp': 15,
     },
     "dragon": {
         "icon": "D",
         "max_hp": 400,
         "color": (72, 61, 139),
-        "attack": 20,
+        "attack": 30,
         'exp': 70,
     },
 
-    'dragon_boss':  {
+    'dragon_boss': {
         "icon":
-'''
-  _a' /(     ,>
-~~_}\ \(    (
-     \(,_(,)'
-      _>, _>,''',
+            '''
+              _a' /(     ,>
+            ~~_}\ \(    (
+                 \(,_(,)'
+                  _>, _>,''',
 
         "max_hp": 700,
         "color": (127, 0, 255),
-        "attack": 25,
+        "attack": 40,
         'exp': 120,
     }
 }
+
 
 class Monster(Entity):
     def __init__(self, type: str, x: int = 0, y: int = 0, max_hp: int = None, attack: int = None, item: Item = None, block_movement: bool = True, talk_to_player: Optional = ''):

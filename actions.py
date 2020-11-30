@@ -2,14 +2,13 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 from components import Player, Item, Monster, SOUNDS
+from random import randint, random, choice
 
-
-import random
 import math
-
 
 if TYPE_CHECKING:
     from engine import Engine
+
 
 class Action:
     def __init__(self, direction_x: int, direction_y: int, type):
@@ -65,10 +64,10 @@ class Action:
 
                     # attack on monster
                     if isinstance(blocking_entity, Monster):
-                        current_attack = random.randint(player.attack - 5, player.attack + 5)
-                        if random.random() > 0.2:
+                        current_attack = randint(player.attack - 5, player.attack + 5)
+                        if random() > 0.1:
                             engine.attack_log.append(f"You attacked {blocking_entity.name} and caused {current_attack} damage.")
-                            SOUNDS['sword'].play()
+                            choice(SOUNDS['sword']).play()
 
                         else:
                             current_attack *= 1.5
@@ -81,14 +80,15 @@ class Action:
                             SOUNDS['die'].play()
                             player.current_exp += blocking_entity.exp
                             if player.current_exp >= player.exp_to_level_up:
+                                SOUNDS['level_up'].play()
                                 player.current_exp = player.current_exp - player.exp_to_level_up
                                 player.level += 1
                                 player.exp_to_level_up += 50
                                 player.max_hp += 30
-                                player.attack += 10
+                                player.attack += 5
                                 player.current_attack += 10
-                                player.defense += 10
-                                player.current_defense += 10
+                                player.defense += 5
+                                player.current_defense += 5
                                 engine.logs.append(f"WOW! Level up! Your current level is {player.level}")
 
                             # drop item by killed monster
@@ -101,8 +101,8 @@ class Action:
                             engine.entities.remove(blocking_entity)
                         else:
                             # Monster attack
-                            enemy_attack = random.randint(blocking_entity.attack - 5, blocking_entity.attack + 5)
-                            if random.random() > 0.2:
+                            enemy_attack = randint(blocking_entity.attack - 5, blocking_entity.attack + 5)
+                            if random() > 0.1:
                                 engine.defense_log.append(f"{blocking_entity.name.title()} attacked you and caused {enemy_attack - player.defense} damage.")
                                 engine.weapon_display.append(f'!')
                             else:
@@ -111,6 +111,8 @@ class Action:
                             player.hp -= max(math.floor(enemy_attack) - player.defense, 0)
 
                             if player.hp <= 0:
+                                SOUNDS['game_over'][1].play().wait_done()
+                                SOUNDS['game_over'][0].play()
                                 player.hp = 0
                                 engine.logs.append(f"You died! {blocking_entity.name.title()} killed you...")
                                 engine.weapon_display.append('DEAD')
@@ -122,15 +124,16 @@ class Action:
 
                 # monster movement
                 for entity in engine.entities:
-                    if isinstance(entity, Monster) and random.random() > 0.8 and entity != blocking_entity:
-                        monster_direction_x = random.randint(-1, 1)
-                        monster_direction_y = random.randint(-1, 1)
+                    if isinstance(entity, Monster) and random() > 0.8 and entity != blocking_entity:
+                        monster_direction_x = randint(-1, 1)
+                        monster_direction_y = randint(-1, 1)
                         monster_dest_x = entity.x + monster_direction_x
                         monster_dest_y = entity.y + monster_direction_y
                         if engine.game_map.tiles["walkable"][monster_dest_x, monster_dest_y]:
                             entity.move(monster_direction_x, monster_direction_y)
 
             elif self.type == "grab":
+                SOUNDS['pick_up'].play()
                 engine.is_inventory_shown = False
                 for single_entity in engine.entities:
                     if isinstance(single_entity, Item) and player.x == single_entity.x and player.y == single_entity.y:
@@ -153,6 +156,7 @@ class Action:
                     engine.logs.append("There is nothing interesting here")
 
             elif self.type == "inventory":
+                SOUNDS['inv'].play()
                 engine.is_inventory_shown = True
                 engine.logs.clear()
                 items = player.inventory.get_items()
@@ -196,14 +200,17 @@ class Action:
                 article = "an" if item_to_use.name in "aeiou" else "a"
 
                 if item_type == "food":
+                    SOUNDS['food'].play()
                     player.hp = min(player.hp + item_to_use.bonus, player.max_hp)
                     engine.logs.append(f"You ate {article} {item_to_use.name}")
 
                 elif item_type == "weapon":
+                    SOUNDS['weapon'].play()
                     player.current_attack = player.attack + item_to_use.bonus
                     engine.logs.append(f"Your weapon now is {article} {item_to_use.name} and your bonus attack is +{item_to_use.bonus}")
 
                 elif item_type == "armor":
+                    SOUNDS['armor'].play()
                     player.current_defense = player.defense + item_to_use.bonus
                     engine.logs.append(f"You wear {article} {item_to_use.name} and your bonus armor is +{item_to_use.bonus}")
 
