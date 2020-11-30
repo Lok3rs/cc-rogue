@@ -1,5 +1,5 @@
 SCREEN = {'WIDTH': 80,
-          'HEIGHT': 54
+          'HEIGHT': 55
           }
 
 Y_MAP_START = 3

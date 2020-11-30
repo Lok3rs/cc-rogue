@@ -2,9 +2,8 @@ from .entity import Entity
 from components import Item
 from typing import Optional
 
-
 MONSTER_TYPES = {
-    "orc":  {
+    "orc": {
         "icon": "O",
         "max_hp": 90,
         "color": (0, 255, 0),
@@ -21,15 +20,28 @@ MONSTER_TYPES = {
     "dragon": {
         "icon": "D",
         "max_hp": 400,
-        "color": (120, 255, 70),
+        "color": (72, 61, 139),
         "attack": 20,
         'exp': 70,
+    },
+
+    'dragon_boss':  {
+        "icon":
+'''
+  _a' /(     ,>
+~~_}\ \(    (
+     \(,_(,)'
+      _>, _>,''',
+
+        "max_hp": 700,
+        "color": (127, 0, 255),
+        "attack": 25,
+        'exp': 120,
     }
 }
 
-
 class Monster(Entity):
-    def __init__(self, x: int, y: int, type: str, max_hp: int = None, attack: int = None, item: Item = None, block_movement: bool = True, talk_to_player: Optional = ''):
+    def __init__(self, type: str, x: int = 0, y: int = 0, max_hp: int = None, attack: int = None, item: Item = None, block_movement: bool = True, talk_to_player: Optional = ''):
         super().__init__(x, y, MONSTER_TYPES[type]["icon"], MONSTER_TYPES[type]["color"], block_movement)
         self.name = type
         self.max_hp = max_hp
