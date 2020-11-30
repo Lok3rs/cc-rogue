@@ -14,39 +14,50 @@ class EventHandler(tcod.event.EventDispatch[Action]):
 
         # key bindings
         if key == tcod.event.K_w:
-            action = Action(direction_x=0, direction_y=-1, type="move")
+            return Action(direction_x=0, direction_y=-1, type="move")
         elif key == tcod.event.K_s:
-            action = Action(direction_x=0, direction_y=1, type="move")
+            return Action(direction_x=0, direction_y=1, type="move")
         elif key == tcod.event.K_a:
-            action = Action(direction_x=-1, direction_y=0, type="move")
+            return Action(direction_x=-1, direction_y=0, type="move")
         elif key == tcod.event.K_d:
-            action = Action(direction_x=1, direction_y=0, type="move")
+            return Action(direction_x=1, direction_y=0, type="move")
         elif key == tcod.event.K_g:
-            action = Action(direction_x=0, direction_y=0, type="grab")
+            return Action(direction_x=0, direction_y=0, type="grab")
         elif key == tcod.event.K_c:
-            action = Action(direction_x=0, direction_y=0, type="check")
+            return Action(direction_x=0, direction_y=0, type="check")
         elif key == tcod.event.K_i:
-            action = Action(direction_x=0, direction_y=0, type="inventory")
+            return Action(direction_x=0, direction_y=0, type="inventory")
         elif key == tcod.event.K_KP_1 or key == tcod.event.K_1:
-            action = Action(direction_x=0, direction_y=0, type="1")
+            return Action(direction_x=0, direction_y=0, type="1")
         elif key == tcod.event.K_KP_2 or key == tcod.event.K_2:
-            action = Action(direction_x=0, direction_y=0, type="2")
+            return Action(direction_x=0, direction_y=0, type="2")
         elif key == tcod.event.K_KP_3 or key == tcod.event.K_3:
-            action = Action(direction_x=0, direction_y=0, type="3")
+            return Action(direction_x=0, direction_y=0, type="3")
         elif key == tcod.event.K_KP_4 or key == tcod.event.K_4:
-            action = Action(direction_x=0, direction_y=0, type="4")
+            return Action(direction_x=0, direction_y=0, type="4")
         elif key == tcod.event.K_KP_5 or key == tcod.event.K_5:
-            action = Action(direction_x=0, direction_y=0, type="5")
+            return Action(direction_x=0, direction_y=0, type="5")
         elif key == tcod.event.K_KP_6 or key == tcod.event.K_6:
-            action = Action(direction_x=0, direction_y=0, type="6")
+            return Action(direction_x=0, direction_y=0, type="6")
         elif key == tcod.event.K_KP_7 or key == tcod.event.K_7:
-            action = Action(direction_x=0, direction_y=0, type="7")
+            return Action(direction_x=0, direction_y=0, type="7")
         elif key == tcod.event.K_KP_8 or key == tcod.event.K_8:
-            action = Action(direction_x=0, direction_y=0, type="8")
+            return Action(direction_x=0, direction_y=0, type="8")
         elif key == tcod.event.K_KP_9 or key == tcod.event.K_9:
-            action = Action(direction_x=0, direction_y=0, type="9")
+            return Action(direction_x=0, direction_y=0, type="9")
+        elif key == tcod.event.K_F5:
+            return Action(direction_x=0, direction_y=0, type="healing_cheat")
+        elif key == tcod.event.K_F6:
+            return Action(direction_x=0, direction_y=0, type="attack_cheat")
+        elif key == tcod.event.K_F7:
+            return Action(direction_x=0, direction_y=0, type="armor_cheat")
+        elif key == tcod.event.K_F12:
+            return Action(direction_x=0, direction_y=0, type="key_cheat")
 
         elif key == tcod.event.K_ESCAPE:
             raise SystemExit
         # No valid key was pressed
-        return action
+
+
+
+
