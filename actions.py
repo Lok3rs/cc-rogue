@@ -19,11 +19,15 @@ class Action:
     def perform(self, engine: Engine, player: Player) -> None:
         if player.hp > 0:
             if self.type == "move":
+
                 engine.logs.clear()
                 engine.talk_to.clear()
                 engine.caused_damage.clear()
                 engine.weapon_display.clear()
+                engine.defense_log.clear()
+                engine.attack_log.clear()
                 engine.is_inventory_shown = False
+
                 dest_x = player.x + self.direction_x
                 dest_y = player.y + self.direction_y
                 blocking_entity = None
@@ -62,12 +66,11 @@ class Action:
                     if isinstance(blocking_entity, Monster):
                         current_attack = random.randint(player.attack - 5, player.attack + 5)
                         if random.random() > 0.2:
-                            engine.logs.append(f"You attacked {blocking_entity.name} and caused {current_attack} damage.")
-
+                            engine.attack_log.append(f"You attacked {blocking_entity.name} and caused {current_attack} damage.")
 
                         else:
                             current_attack *= 1.5
-                            engine.logs.append(f"CRITICAL HIT! {blocking_entity.name.title()}'s bleeding! Caused {math.floor(current_attack)} damage.")
+                            engine.attack_log.append(f"CRITICAL HIT! {blocking_entity.name.title()}'s bleeding! Caused {math.floor(current_attack)} damage.")
                         blocking_entity.current_hp -= math.floor(current_attack)
 
                         # player level up
@@ -90,15 +93,17 @@ class Action:
                                 blocking_entity.item.x = blocking_entity.x
                                 blocking_entity.item.y = blocking_entity.y
                                 engine.entities.add(blocking_entity.item)
+                                engine.logs.append(f'Monster dropped {blocking_entity.item.name}')
                             engine.entities.remove(blocking_entity)
                         else:
+                            # Monster attack
                             enemy_attack = random.randint(blocking_entity.attack - 5, blocking_entity.attack + 5)
                             if random.random() > 0.2:
-                                engine.logs.append(f"{blocking_entity.name.title()} attacked you and caused {enemy_attack - player.defense} damage.")
+                                engine.defense_log.append(f"{blocking_entity.name.title()} attacked you and caused {enemy_attack - player.defense} damage.")
                                 engine.weapon_display.append(f'!')
                             else:
                                 enemy_attack *= 1.5
-                                engine.logs.append(f"CRITICAL HIT RECEIVED! {blocking_entity.name.title()}'s piercing strike caused {math.floor(enemy_attack) - player.defense} damage ")
+                                engine.defense_log.append(f"CRITICAL HIT RECEIVED! {blocking_entity.name.title()}'s piercing strike caused {math.floor(enemy_attack) - player.defense} damage ")
                             player.hp -= max(math.floor(enemy_attack) - player.defense, 0)
 
                             if player.hp <= 0:

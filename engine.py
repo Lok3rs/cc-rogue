@@ -1,4 +1,4 @@
-from typing import Set, Iterable, Any
+from typing import Iterable, Any
 
 from tcod.context import Context
 from tcod.console import Console
@@ -24,11 +24,13 @@ class Engine:
         self.game_map = game_map
         self.player = Player(game_map.start_coords[0], game_map.start_coords[1])
         self.entities.add(self.player)
-        self.logs = []
         self.is_inventory_shown = False
+        self.logs = []
         self.talk_to = []
         self.caused_damage = []
         self.weapon_display = []
+        self.attack_log = []
+        self.defense_log = []
         self.entity_x = entity_x
         self.entity_y = entity_y
         self.current_round = 1
@@ -82,14 +84,14 @@ class Engine:
 
         console.print(1, 1, f'HP:{self.player.hp}/{self.player.max_hp} '
                             f'DEF:{self.player.defense}+{self.player.current_defense - self.player.defense} '
-                            f'ATK:{self.player.attack}+{self.player.current_attack - self.player.attack}   '
+                            f'ATK:{self.player.attack}+{self.player.current_attack - self.player.attack} '
                             f'LVL:{self.player.level} EXP:{self.player.current_exp}/{self.player.exp_to_level_up}',
                       bg=(0, 0, 0), fg=(0, 255, 0)
                       )
 
         console.print(61, 1, f'{"NEXT LEVEL ENABLED" if self.player.has_gate_key() else ""}', bg=(0, 0, 0), fg=(0, 255, 0))
 
-        y = settings.SCREEN["HEIGHT"] - 1
+        y = settings.SCREEN["HEIGHT"] - 3
         messages_count = 1
         for message in self.logs[::-1]:
             tcod.console_set_color_control(tcod.COLCTRL_1, tcod.yellow, tcod.black)
@@ -103,6 +105,12 @@ class Engine:
             messages_count += 1
             if messages_count > 4:
                 break
+
+        for message in self.defense_log:
+            console.print(1, settings.SCREEN["HEIGHT"] - 3, message, fg=(255, 0, 0))
+
+        for message in self.attack_log:
+            console.print(1, settings.SCREEN["HEIGHT"] - 2, message, fg=(0, 255, 0))
 
         for message in self.talk_to:
             console.print((self.entity_x - 17 if self.entity_x >= 65 and len(message) >= 14
