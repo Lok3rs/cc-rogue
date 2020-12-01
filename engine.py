@@ -33,7 +33,6 @@ class Engine:
         self.defense_log = []
         self.entity_x = entity_x
         self.entity_y = entity_y
-        self.current_round = 1
 
         # to show something at the beginning of the game
         self.update_explored_tiles()

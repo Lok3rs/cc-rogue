@@ -3,6 +3,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from components import Player, Item, Monster, SOUNDS
 from random import randint, random, choice
+from maps import MAPS_LIST
+from components.item import Item
 
 import math
 
@@ -44,23 +46,36 @@ class Action:
                     engine.entity_y = dest_y
                     message = blocking_entity.talk_to_player
                     engine.talk_to.append(message) if not blocking_entity.is_gate or not player.has_gate_key() else None
+                    print(player.inventory.items)
 
                     if blocking_entity.is_gate:
-                        if player.has_gate_key():
-                            current_map = engine.game_map
+                        current_map = engine.game_map
+                        if current_map == MAPS_LIST[0]:
+                            engine.next_map = MAPS_LIST[1]
+                            engine.prev_map = None
+                        elif current_map == MAPS_LIST[1]:
+                            engine.next_map = MAPS_LIST[2]
+                            engine.prev_map = MAPS_LIST[0]
+                        elif current_map == MAPS_LIST[2]:
+                            engine.next_map = None
+                            engine.prev_map = MAPS_LIST[1]
 
-                            # map change
-                            if current_map.next_map:
-                                engine.game_map = current_map.next_map
-                                engine.entities = current_map.next_map.entities
-                                player.x = current_map.next_map.start_coords[0]
-                                player.y = current_map.next_map.start_coords[1]
-                                engine.entities.add(player)
-                                engine.current_round += 1
-                                player.remove_gate_key()
-                            else:
-                                engine.logs.append("Next levels under construction")
-                            return
+                        # map change
+                        if player.has_gate_key() and blocking_entity.gate_to == 'next_map':
+                            engine.game_map = engine.next_map
+                            engine.entities = engine.next_map.entities
+                            player.x = engine.next_map.start_coords[0]
+                            player.y = engine.next_map.start_coords[1]
+                            engine.entities.add(player)
+                            # TODO respawn enemies
+                            player.remove_gate_key()
+
+                        elif not player.has_gate_key() and blocking_entity.gate_to == 'prev_map':
+                            engine.game_map = engine.prev_map
+                            engine.entities = engine.prev_map.entities
+                            player.x = engine.prev_map.finish_cords[0]
+                            player.y = engine.prev_map.finish_cords[1]
+                            player.inventory.add(Item('special', 'silver key', bonus=1))
 
                     # attack on monster
                     if isinstance(blocking_entity, Monster):
@@ -99,6 +114,7 @@ class Action:
                                 engine.entities.add(blocking_entity.item)
                                 engine.logs.append(f'Monster dropped {blocking_entity.item.name}')
                             engine.entities.remove(blocking_entity)
+
                         else:
                             # Monster attack
                             enemy_attack = randint(blocking_entity.attack - 5, blocking_entity.attack + 5)

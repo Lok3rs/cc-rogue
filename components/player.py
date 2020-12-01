@@ -26,10 +26,7 @@ class Player(Entity):
 
     def has_gate_key(self):
         if "special" in self.inventory.items:
-            if 1 in [item.bonus for item in self.inventory.items["special"]]:
-                return True
-        else:
-            return False
+            return True
 
     def get_gate_key(self):
         if "special" in self.inventory.items:
