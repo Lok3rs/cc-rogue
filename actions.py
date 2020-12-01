@@ -70,12 +70,13 @@ class Action:
                             # TODO respawn enemies
                             player.remove_gate_key()
 
-                        elif not player.has_gate_key() and blocking_entity.gate_to == 'prev_map':
+                        elif blocking_entity.gate_to == 'prev_map':
                             engine.game_map = engine.prev_map
                             engine.entities = engine.prev_map.entities
                             player.x = engine.prev_map.finish_cords[0]
                             player.y = engine.prev_map.finish_cords[1]
-                            player.inventory.add(Item('special', 'silver key', bonus=1))
+                            if not "special" in player.inventory.get_items().keys():
+                                player.inventory.add(Item('special', 'silver key', bonus=1))
 
                     # attack on monster
                     if isinstance(blocking_entity, Monster):
