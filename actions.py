@@ -191,7 +191,6 @@ class Action:
                 else:
                     engine.logs.append("Your inventory is empty")
 
-
             elif self.type in [char for char in "1234567890"] and engine.is_inventory_shown is True:
                 engine.logs.clear()
                 count = 0
@@ -235,3 +234,19 @@ class Action:
                     del player.inventory.items[item_type]
 
                     engine.is_inventory_shown = False
+
+            elif self.type == "healing_cheat":
+                engine.logs.append("Your health is full now, but I hope it was the last time I had to help you...")
+                player.hp = player.max_hp
+            elif self.type == "attack_cheat":
+                player.current_attack += 50
+                player.attack += 50
+                engine.logs.append("Weak man... I will enhance your sword.")
+            elif self.type == "armor_cheat":
+                player.defense += 50
+                player.current_defense += 50
+                engine.logs.append("I will protect your weak body.")
+            elif self.type == "key_cheat":
+                cheater_key = Item(type="special", name="cheater key", bonus=1)
+                player.inventory.add(cheater_key)
+                engine.logs.append("It seems you don't like adventures. Take the key and go away.")
