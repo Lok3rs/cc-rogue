@@ -38,6 +38,7 @@ class Action:
 
                 if not engine.game_map.tiles["walkable"][dest_x, dest_y]:
                     engine.logs.append("Well, you cannot go through the wall.")
+                    SOUNDS['bump'].play()
                     return None  # Destination is blocked by a tile.
 
                 if engine.get_blocking_entity(dest_x, dest_y):
@@ -67,7 +68,7 @@ class Action:
                             player.x = engine.next_map.start_coords[0]
                             player.y = engine.next_map.start_coords[1]
                             engine.entities.add(player)
-                            # TODO respawn enemies
+                            SOUNDS['weapon'].play()
                             player.remove_gate_key()
 
                         elif blocking_entity.gate_to == 'prev_map':
@@ -76,6 +77,7 @@ class Action:
                             player.x = engine.prev_map.finish_cords[0]
                             player.y = engine.prev_map.finish_cords[1]
                             engine.entities.add(player)
+                            SOUNDS['weapon'].play()
                             if "special" not in player.inventory.get_items().keys():
                                 player.inventory.add(Item('special', 'silver key', bonus=1))
 
@@ -122,8 +124,10 @@ class Action:
                             # Monster attack
                             enemy_attack = randint(blocking_entity.attack - 5, blocking_entity.attack + 5)
                             if random() > 0.1:
+                                choice(SOUNDS['monster']).play()
                                 engine.defense_log.append(f"{blocking_entity.name.title()} attacked you and caused {enemy_attack - player.defense} damage.")
                                 engine.weapon_display.append(f'!')
+
                             else:
                                 enemy_attack *= 1.5
                                 engine.defense_log.append(f"CRITICAL HIT RECEIVED! {blocking_entity.name.title()}'s piercing strike caused {math.floor(enemy_attack) - player.defense} damage ")

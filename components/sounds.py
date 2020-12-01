@@ -13,6 +13,19 @@ SOUNDS = {
     'weapon': wav('components/sound/knife_ring.wav'),
     'food': wav('components/sound/food.wav'),
     'armor': wav('components/sound/armor.wav'),
-    'inv': wav('components/sound/inv.wav')
+    'inv': wav('components/sound/inv.wav'),
+    'bump': wav('components/sound/bump.wav'),
+    'monster': [
+        wav('components/sound/shade1.wav'), wav('components/sound/shade2.wav'),
+        wav('components/sound/shade3.wav'), wav('components/sound/shade4.wav'),
+        wav('components/sound/shade5.wav'), wav('components/sound/shade6.wav'),
+        wav('components/sound/shade7.wav'), wav('components/sound/shade8.wav'),
+        wav('components/sound/shade9.wav'), wav('components/sound/shade10.wav'),
+        wav('components/sound/shade11.wav'), wav('components/sound/shade12.wav'),
+        wav('components/sound/shade13.wav'), wav('components/sound/shade14.wav'),
+        wav('components/sound/shade15.wav'), wav('components/sound/ogre3.wav'),
+        wav('components/sound/ogre4.wav'), wav('components/sound/giant1.wav'),
+        wav('components/sound/giant5.wav'), wav('components/sound/giant3.wav')
+    ],
 
 }
