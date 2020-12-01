@@ -40,8 +40,8 @@ class Action:
                     engine.logs.append("Well, you cannot go through the wall.")
                     return None  # Destination is blocked by a tile.
 
-                if engine.game_map.get_blocking_entity(dest_x, dest_y):
-                    blocking_entity = engine.game_map.get_blocking_entity(dest_x, dest_y)
+                if engine.get_blocking_entity(dest_x, dest_y):
+                    blocking_entity = engine.get_blocking_entity(dest_x, dest_y)
                     engine.entity_x = dest_x
                     engine.entity_y = dest_y
                     message = blocking_entity.talk_to_player
@@ -72,10 +72,11 @@ class Action:
 
                         elif blocking_entity.gate_to == 'prev_map':
                             engine.game_map = engine.prev_map
-                            engine.entities = engine.prev_map.entities
+                            engine.entities = set({ entity for entity in engine.prev_map.entities if not isinstance(entity, Monster) or entity.name != "dragon"})
                             player.x = engine.prev_map.finish_cords[0]
                             player.y = engine.prev_map.finish_cords[1]
-                            if not "special" in player.inventory.get_items().keys():
+                            engine.entities.add(player)
+                            if "special" not in player.inventory.get_items().keys():
                                 player.inventory.add(Item('special', 'silver key', bonus=1))
 
                     # attack on monster
@@ -114,7 +115,8 @@ class Action:
                                 blocking_entity.item.y = blocking_entity.y
                                 engine.entities.add(blocking_entity.item)
                                 engine.logs.append(f'Monster dropped {blocking_entity.item.name}')
-                            engine.entities.remove(blocking_entity)
+                            if (blocking_entity in engine.entities):
+                                engine.entities.remove(blocking_entity)
 
                         else:
                             # Monster attack

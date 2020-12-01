@@ -46,12 +46,6 @@ class GameMap:
             self.tiles[self.dict_of_elements[element]] = tile_types.dungeon
         return self
 
-    def get_blocking_entity(self, x: int, y: int):
-        for entity in self.entities:
-            if entity.block_movement and entity.x == x and entity.y == y:
-                return entity
-        return None
-
 
 class Chamber:
     def __init__(self, x: int, y: int, width: int, height: int):

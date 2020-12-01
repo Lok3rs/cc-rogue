@@ -19,7 +19,7 @@ class Engine:
         :param event_handler: handle the events
         :param player:  is the player Entity. We have a separate reference to it outside of entities for ease of access.
         """
-        self.entities = game_map.entities
+        self.entities = game_map.entities.copy()
         self.event_handler = event_handler
         self.game_map = game_map
         self.player = Player(game_map.start_coords[0], game_map.start_coords[1])
@@ -64,6 +64,12 @@ class Engine:
             light_walls=False,
             radius=4,
         )
+
+    def get_blocking_entity(self, x: int, y: int):
+        for entity in self.entities:
+            if entity.block_movement and entity.x == x and entity.y == y:
+                return entity
+        return None
 
     def render(self, console: Console, context: Context) -> None:
         """
