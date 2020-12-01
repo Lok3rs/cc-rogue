@@ -47,7 +47,6 @@ class Action:
                     engine.entity_y = dest_y
                     message = blocking_entity.talk_to_player
                     engine.talk_to.append(message) if not blocking_entity.is_gate or not player.has_gate_key() else None
-                    print(player.inventory.items)
 
                     if blocking_entity.is_gate:
                         current_map = engine.game_map
