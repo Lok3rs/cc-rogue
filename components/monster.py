@@ -1,5 +1,5 @@
 from .entity import Entity
-from components import Item
+from components import Item, ITEM_TYPES
 from typing import Optional
 
 MONSTER_TYPES = {
@@ -51,3 +51,7 @@ class Monster(Entity):
         self.exp = MONSTER_TYPES[type]["exp"]
         self.item = item
         self.talk_to_player = talk_to_player
+
+
+
+troll = Monster(type='troll', x=0, y = 0, max_hp= 70, attack=12, block_movement=True)

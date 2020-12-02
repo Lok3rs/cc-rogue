@@ -54,7 +54,7 @@ class Engine:
             if action is None:
                 continue
 
-            perform(self, self.player, action.type, action.direction_x, action.direction_y, )
+            perform(self, self.player, action.type, action.direction_x, action.direction_y)
             self.update_explored_tiles()
 
     def update_explored_tiles(self) -> None:

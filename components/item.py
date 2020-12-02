@@ -1,4 +1,5 @@
 from .entity import Entity
+from random import randint
 
 ITEM_TYPES = {
     "special": {"icon": "@", "color": (235, 97, 35)},
@@ -31,3 +32,16 @@ class Item(Entity):
             return f"{self.name} (+{self.bonus} {attribute})"
         else:
             return self.name
+
+
+
+
+
+apple = Item("food", "apple", bonus=randint(5, 15)),
+breed = Item("food", "apple", bonus=randint(15, 30)),
+meet = Item("food", "apple", bonus=randint(25, 40))
+
+rusted_sabre = Item("weapon", "rusted sabre", bonus=randint(4, 6))
+double_edged_axe = Item("weapon", "double-edged axe", bonus=randint(4, 8))
+
+LIST_OF_ITEMS = [apple, breed, meet, rusted_sabre, double_edged_axe]
