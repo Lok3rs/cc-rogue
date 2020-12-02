@@ -34,12 +34,9 @@ class Item(Entity):
             return self.name
 
 
-
-
-
-apple = Item("food", "apple", bonus=randint(5, 15)),
-breed = Item("food", "apple", bonus=randint(15, 30)),
-meet = Item("food", "apple", bonus=randint(25, 40))
+apple = Item("food", "apple", bonus=randint(5, 15))
+breed = Item("food", "breed", bonus=randint(15, 30))
+meet = Item("food", "meet", bonus=randint(25, 40))
 
 rusted_sabre = Item("weapon", "rusted sabre", bonus=randint(4, 6))
 double_edged_axe = Item("weapon", "double-edged axe", bonus=randint(4, 8))

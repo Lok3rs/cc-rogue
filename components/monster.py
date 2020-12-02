@@ -27,11 +27,11 @@ MONSTER_TYPES = {
 
     'dragon_boss': {
         "icon":
-'''
-  _a' /(     ,>
-~~_}\ \(    (
-     \(,_(,)'
-      _>, _>,''',
+            '''
+              _a' /(     ,>
+            ~~_}\ \(    (
+                 \(,_(,)'
+                  _>, _>,''',
 
         "max_hp": 700,
         "color": (127, 0, 255),
@@ -51,7 +51,3 @@ class Monster(Entity):
         self.exp = MONSTER_TYPES[type]["exp"]
         self.item = item
         self.talk_to_player = talk_to_player
-
-
-
-troll = Monster(type='troll', x=0, y = 0, max_hp= 70, attack=12, block_movement=True)
