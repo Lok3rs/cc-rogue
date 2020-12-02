@@ -4,6 +4,7 @@ from tcod.context import Context
 from tcod.console import Console
 import tcod
 import settings
+from actions import perform
 
 from util import EventHandler
 from components import Player, GameMap
@@ -53,7 +54,7 @@ class Engine:
             if action is None:
                 continue
 
-            action.perform(self, self.player)
+            perform(self, self.player, action.type, action.direction_x, action.direction_y, )
             self.update_explored_tiles()
 
     def update_explored_tiles(self) -> None:
