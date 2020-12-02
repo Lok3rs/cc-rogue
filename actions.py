@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from components import Player, Item, Monster, SOUNDS
+from components import Player, Monster, SOUNDS
 from random import randint, random, choice
 from maps import MAPS_LIST
 from components.item import Item
@@ -19,7 +19,9 @@ class Action:
         self.type = type
 
     def perform(self, engine: Engine, player: Player) -> None:
+
         if player.hp > 0:
+
             if self.type == "move":
 
                 engine.logs.clear()
@@ -48,17 +50,20 @@ class Action:
                     message = blocking_entity.talk_to_player
                     engine.talk_to.append(message) if not blocking_entity.is_gate or not player.has_gate_key() else None
 
+                    current_map_index = MAPS_LIST.index(engine.game_map)
+
                     if blocking_entity.is_gate:
-                        current_map = engine.game_map
-                        if current_map == MAPS_LIST[0]:
-                            engine.next_map = MAPS_LIST[1]
+                        if current_map_index != 0 and current_map_index != 2:
+                            engine.next_map = MAPS_LIST[current_map_index + 1]
+                            engine.prev_map = MAPS_LIST[current_map_index - 1]
+
+                        elif current_map_index == 0:
+                            engine.next_map = MAPS_LIST[current_map_index + 1]
                             engine.prev_map = None
-                        elif current_map == MAPS_LIST[1]:
-                            engine.next_map = MAPS_LIST[2]
-                            engine.prev_map = MAPS_LIST[0]
-                        elif current_map == MAPS_LIST[2]:
+
+                        elif current_map_index == 2:
                             engine.next_map = None
-                            engine.prev_map = MAPS_LIST[1]
+                            engine.prev_map = MAPS_LIST[current_map_index - 1]
 
                         # map change
                         if player.has_gate_key() and blocking_entity.gate_to == 'next_map':
@@ -72,7 +77,7 @@ class Action:
 
                         elif blocking_entity.gate_to == 'prev_map':
                             engine.game_map = engine.prev_map
-                            engine.entities = set({ entity for entity in engine.prev_map.entities if not isinstance(entity, Monster) or entity.name != "dragon"})
+                            engine.entities = set({entity for entity in engine.prev_map.entities if not isinstance(entity, Monster) or entity.name != "dragon"})
                             player.x = engine.prev_map.finish_cords[0]
                             player.y = engine.prev_map.finish_cords[1]
                             engine.entities.add(player)
@@ -177,6 +182,7 @@ class Action:
                 else:
                     engine.logs.append("There is nothing interesting here")
 
+            # Inventory
             elif self.type == "inventory":
                 SOUNDS['inv'].play()
                 engine.is_inventory_shown = True
@@ -241,17 +247,21 @@ class Action:
 
                     engine.is_inventory_shown = False
 
+            # Cheats
             elif self.type == "healing_cheat":
                 engine.logs.append("Your health is full now, but I hope it was the last time I had to help you...")
                 player.hp = player.max_hp
+
             elif self.type == "attack_cheat":
                 player.current_attack += 50
                 player.attack += 50
                 engine.logs.append("Weak man... I will enhance your sword.")
+
             elif self.type == "armor_cheat":
                 player.defense += 50
                 player.current_defense += 50
                 engine.logs.append("I will protect your weak body.")
+
             elif self.type == "key_cheat":
                 cheater_key = Item(type="special", name="cheater key", bonus=1)
                 player.inventory.add(cheater_key)
