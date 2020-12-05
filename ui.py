@@ -52,7 +52,7 @@ class GameScreen:
                 self.screen_width,
                 self.screen_height,
                 tileset=self.tileset,
-                title="Roguelike",
+                title="Dungeons&",
                 vsync=True) as context:
             # Create the main console.
             root_console = tcod.Console(self.screen_width, self.screen_height, order="F")
