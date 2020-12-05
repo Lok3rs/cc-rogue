@@ -12,7 +12,7 @@ from tcod.map import compute_fov
 
 
 class Engine:
-    def __init__(self, event_handler: EventHandler, game_map: GameMap, entity_x: int = 0, entity_y: int = 0):
+    def __init__(self, event_handler: EventHandler, game_map: GameMap):
         """
         Responsible of drawing the map and entities, as well as handling the player’s input.
 
@@ -32,8 +32,6 @@ class Engine:
         self.weapon_display = []
         self.attack_log = []
         self.defense_log = []
-        self.entity_x = entity_x
-        self.entity_y = entity_y
 
         # to show something at the beginning of the game
         self.update_explored_tiles()

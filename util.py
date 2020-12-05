@@ -1,15 +1,13 @@
-from typing import Optional
 import tcod.event
 import tcod
 from actions import Action
 
 
 class EventHandler(tcod.event.EventDispatch[Action]):
-    def ev_quit(self, event: tcod.event.Quit) -> Optional[Action]:
+    def ev_quit(self, event: tcod.event.Quit):
         raise SystemExit()
 
-    def ev_keydown(self, event: tcod.event.KeyDown, *args) -> Optional[Action]:
-        action: Optional[Action] = None
+    def ev_keydown(self, event: tcod.event.KeyDown, *args):
 
         key = event.sym  # pressed key down
 
@@ -57,7 +55,3 @@ class EventHandler(tcod.event.EventDispatch[Action]):
         elif key == tcod.event.K_ESCAPE:
             raise SystemExit
         # No valid key was pressed
-
-
-
-

@@ -3,11 +3,18 @@ from .inventory import Inventory
 
 ICON = 'Q'
 COLOR = (255, 255, 255)
+MAX_INVENTORY = 10
+EXP_TO_LEVEL_UP = 100
 MAX_HP = 100
 ATTACK = 30
 DEFENSE = 5
-MAX_INVENTORY = 10
-EXP_TO_LEVEL_UP = 100
+
+RACES = {
+    "Human": {"attack": 30, "defense": 5, "max_hp": 100},
+    "Draft": {"attack": 40, "defense": 0, "max_hp": 120},
+    "Elf": {"attack": 20, "defense": 10, "max_hp": 160},
+    "Tiefling": {"attack": 30, "defense": 0, "max_hp": 200}
+}
 
 
 class Player(Entity):
@@ -15,14 +22,9 @@ class Player(Entity):
         super().__init__(x, y, ICON, COLOR)
         self.inventory = Inventory(MAX_INVENTORY)
         self.level = 1
-        self.max_hp = MAX_HP
-        self.attack = ATTACK
-        self.defense = DEFENSE
-        self.hp = self.max_hp
-        self.current_attack = self.attack
-        self.current_defense = self.defense
         self.exp_to_level_up = EXP_TO_LEVEL_UP
         self.current_exp = 0
+        self.race = None
 
     def has_gate_key(self):
         if "special" in self.inventory.items:
@@ -44,3 +46,13 @@ class Player(Entity):
                 break
         if len(self.inventory.items["special"]) == 0:
             del self.inventory.items["special"]
+
+    def set_race(self, race):
+        if not self.race:
+            self.race = race
+            self.attack = RACES[race]["attack"]
+            self.defense = RACES[race]["defense"]
+            self.max_hp = RACES[race]["max_hp"]
+            self.current_attack = self.attack
+            self.current_defense = self.defense
+            self.hp = self.max_hp
