@@ -101,7 +101,7 @@ class Engine:
             tcod.console_set_color_control(tcod.COLCTRL_1, tcod.yellow, tcod.black)
             x = 1
             for i in range(len(message)):
-                if (message[i] in "1234567890" and message[i - 1] == "[" and message[i + 1] == "]"):
+                if message[i] in "1234567890" and message[i - 1] == "[" and message[i + 1] == "]":
                     tcod.console_print(console, x, y - messages_count, f"%c{message[i]}%c" % (tcod.COLCTRL_1, tcod.COLCTRL_1))
                 else:
                     tcod.console_print(console, x, y - messages_count, message[i])

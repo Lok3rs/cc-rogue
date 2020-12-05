@@ -11,7 +11,7 @@ DEFENSE = 5
 
 RACES = {
     "Human": {"attack": 30, "defense": 5, "max_hp": 100},
-    "Draft": {"attack": 40, "defense": 0, "max_hp": 120},
+    "Dwarf": {"attack": 40, "defense": 0, "max_hp": 120},
     "Elf": {"attack": 20, "defense": 10, "max_hp": 160},
     "Tiefling": {"attack": 30, "defense": 0, "max_hp": 200}
 }

@@ -79,7 +79,8 @@ def perform(engine: Engine, player: Player, action_type: str, direction_x: int, 
 
                     elif blocking_entity.gate_to == 'prev_map':
                         engine.game_map = engine.prev_map
-                        engine.entities = set({entity for entity in engine.prev_map.entities if not isinstance(entity, Monster) or entity.name != "dragon"})
+                        engine.entities = set({entity for entity in engine.prev_map.entities
+                                               if not isinstance(entity, Monster) or entity.name != "dragon"})
                         player.x = engine.prev_map.finish_cords[0]
                         player.y = engine.prev_map.finish_cords[1]
                         engine.entities.add(player)
@@ -91,13 +92,15 @@ def perform(engine: Engine, player: Player, action_type: str, direction_x: int, 
                 if isinstance(blocking_entity, Monster):
                     current_attack = randint(player.attack - 5, player.attack + 5)
                     if random() > 0.1:
-                        engine.attack_log.append(f"You attacked {blocking_entity.name} and caused {current_attack} damage.")
+                        engine.attack_log.append(f"You attacked {blocking_entity.name} and "
+                                                 f"caused {current_attack} damage.")
                         choice(SOUNDS['sword']).play()
 
                     else:
                         current_attack *= 1.5
                         SOUNDS['crit'].play()
-                        engine.attack_log.append(f"CRITICAL HIT! {blocking_entity.name.title()}'s bleeding! Caused {math.floor(current_attack)} damage.")
+                        engine.attack_log.append(f"CRITICAL HIT! {blocking_entity.name.title()}'s bleeding! "
+                                                 f"Caused {math.floor(current_attack)} damage.")
                     blocking_entity.current_hp -= math.floor(current_attack)
 
                     # Player level up.
@@ -118,12 +121,12 @@ def perform(engine: Engine, player: Player, action_type: str, direction_x: int, 
 
                         # Drop item by killed monster.
                         engine.logs.append(f"You've killed {blocking_entity.name}")
-                        if (blocking_entity.item):
+                        if blocking_entity.item:
                             blocking_entity.item.x = blocking_entity.x
                             blocking_entity.item.y = blocking_entity.y
                             engine.entities.add(blocking_entity.item)
                             engine.logs.append(f'Monster dropped {blocking_entity.item.name}')
-                        if (blocking_entity in engine.entities):
+                        if blocking_entity in engine.entities:
                             engine.entities.remove(blocking_entity)
 
                     else:
@@ -131,12 +134,15 @@ def perform(engine: Engine, player: Player, action_type: str, direction_x: int, 
                         enemy_attack = randint(blocking_entity.attack - 5, blocking_entity.attack + 5)
                         if random() > 0.1:
                             choice(SOUNDS['monster']).play()
-                            engine.defense_log.append(f"{blocking_entity.name.title()} attacked you and caused {enemy_attack - player.defense} damage.")
+                            engine.defense_log.append(f"{blocking_entity.name.title()} attacked you and caused "
+                                                      f"{max(0, enemy_attack - player.defense)} damage.")
                             engine.weapon_display.append(f'!')
 
                         else:
                             enemy_attack *= 1.5
-                            engine.defense_log.append(f"CRITICAL HIT RECEIVED! {blocking_entity.name.title()}'s piercing strike caused {math.floor(enemy_attack) - player.defense} damage ")
+                            engine.defense_log.append(f"CRITICAL HIT RECEIVED! {blocking_entity.name.title()}'s "
+                                                      f"piercing strike caused "
+                                                      f"{max(0, math.floor(enemy_attack) - player.defense)} damage ")
                         player.hp -= max(math.floor(enemy_attack) - player.defense, 0)
 
                         # Game over
@@ -169,7 +175,7 @@ def perform(engine: Engine, player: Player, action_type: str, direction_x: int, 
             for single_entity in engine.entities:
                 if isinstance(single_entity, Item) and player.x == single_entity.x and player.y == single_entity.y:
                     result = player.inventory.add(single_entity)
-                    if (result["is_added"]):
+                    if result["is_added"]:
                         engine.entities.remove(single_entity)
                     engine.logs.append(result["message"])
                     break
@@ -239,12 +245,14 @@ def perform(engine: Engine, player: Player, action_type: str, direction_x: int, 
             elif item_type == "weapon":
                 SOUNDS['weapon'].play()
                 player.current_attack = player.attack + item_to_use.bonus
-                engine.logs.append(f"Your weapon now is {article} {item_to_use.name} and your bonus attack is +{item_to_use.bonus}")
+                engine.logs.append(f"Your weapon now is {article} {item_to_use.name} and your bonus attack is"
+                                   f" +{item_to_use.bonus}")
 
             elif item_type == "armor":
                 SOUNDS['armor'].play()
                 player.current_defense = player.defense + item_to_use.bonus
-                engine.logs.append(f"You wear {article} {item_to_use.name} and your bonus armor is +{item_to_use.bonus}")
+                engine.logs.append(f"You wear {article} {item_to_use.name} and your bonus armor is "
+                                   f"+{item_to_use.bonus}")
 
             del player.inventory.items[item_type][item_index]
             if len(player.inventory.items[item_type]) == 0:

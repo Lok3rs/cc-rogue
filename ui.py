@@ -15,10 +15,11 @@ class GameScreen:
 
         # show the game's title, and some credits!
         title = "Select your character race"
-        options = ["Human", "Draft", "Elf", "Tiefling"]
+        options = ["Human", "Dwarf", "Elf", "Tiefling"]
 
         tcod.console_set_default_foreground(console, tcod.light_yellow)
-        tcod.console_print(console, int(settings.SCREEN["WIDTH"]/2 - len(title)/2), int(settings.SCREEN["HEIGHT"]/2 - len(options)/2 - 2), title)
+        tcod.console_print(console, int(settings.SCREEN["WIDTH"]/2 - len(title)/2),
+                           int(settings.SCREEN["HEIGHT"]/2 - len(options)/2 - 2), title)
 
         # print all the options
         tcod.console_set_default_foreground(console, tcod.white)
@@ -41,7 +42,7 @@ class GameScreen:
                 raise SystemExit()
 
             index = key.c - ord('a')
-            if index >= 0 and index < len(options):
+            if 0 <= index < len(options):
                 choice = index
 
         self.game_on = True
@@ -52,7 +53,7 @@ class GameScreen:
                 self.screen_width,
                 self.screen_height,
                 tileset=self.tileset,
-                title="Dungeons&",
+                title="Dungeons&Dragons",
                 vsync=True) as context:
             # Create the main console.
             root_console = tcod.Console(self.screen_width, self.screen_height, order="F")

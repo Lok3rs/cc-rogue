@@ -24,7 +24,27 @@ MONSTER_TYPES = {
         "attack": 30,
         'exp': 70,
     },
-
+    "witch": {
+        "icon": "W",
+        "max_hp": 200,
+        "color": (255, 70, 85),
+        "attack" : 40,
+        "exp": 60,
+    },
+    "dragon2": {
+        "icon": "D",
+        "max_hp": 650,
+        "color": (72, 61, 139),
+        "attack": 70,
+        'exp': 180,
+    },
+    "behemoth": {
+        "icon": "B",
+        "max_hp":450,
+        "color":(240, 210, 12),
+        "attack": 70,
+        "exp": 120
+    },
     'dragon_boss': {
         "icon":
             '''
@@ -42,7 +62,8 @@ MONSTER_TYPES = {
 
 
 class Monster(Entity):
-    def __init__(self, type: str, x: int = 0, y: int = 0, max_hp: int = None, attack: int = None, item: Item = None, block_movement: bool = True, talk_to_player: Optional = ''):
+    def __init__(self, type: str, x: int = 0, y: int = 0, max_hp: int = None, attack: int = None, item: Item = None,
+                 block_movement: bool = True, talk_to_player: Optional = ''):
         super().__init__(x, y, MONSTER_TYPES[type]["icon"], MONSTER_TYPES[type]["color"], block_movement)
         self.name = type
         self.max_hp = max_hp

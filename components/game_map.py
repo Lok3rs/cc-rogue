@@ -31,7 +31,6 @@ class GameMap:
         Using the Console tcod class’s tiles_rgb method, we can quickly render the entire map.
         This method proves much faster than using the console.print method that we use for the individual entities.
         """
-
         if self.explore_mode:
             console.tiles_rgb[0:self.width, settings.Y_MAP_START:self.height + settings.Y_MAP_START] = np.select(
                 condlist=[self.explored_tiles],

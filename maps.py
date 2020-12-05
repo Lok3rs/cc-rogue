@@ -1,4 +1,5 @@
-from components import Entity, Item, Monster, GameMap, Chamber, LIST_OF_ITEMS
+from components import Entity, Item, Monster, GameMap, Chamber
+from components.item import LIST_OF_ITEMS, LIST_OF_ITEMS_B, LIST_OF_ITEMS_C
 from random import choice
 
 GATE = {
@@ -14,16 +15,18 @@ TALK = {
     'troll': ['Ha Ha Ha Ha', 'I will eat your flesh!', 'You choose wrong place...'],
     'dragon': ['Dragon: Hrrrrr.....'],
     'gate': ['You need key!'],
+    'witch': ["Why did you come here, you weak creature?", "I'm sad to kill you..."],
+    "behemoth": ["Hrrrrrr....", "You woke me up, you little trash...."],
     'npc_map_C':
         ["""Dragon is unbeatable, but
-has some weak points!
-save us!
-"""]
+            has some weak points!
+            save us!
+            """]
 }
 
 ### MAP_A ###
 
-MAP_A_START_COORDS = (75, 36)
+MAP_A_START_COORDS = (0, 5)
 MAP_A_FINISH_COORDS = (77, 36)
 
 GATE_MAP_A_1 = {
@@ -82,9 +85,12 @@ MAP_A_CHAMBERS = {
 }
 
 MAP_A_ENTITIES = {
-    Entity(NPC_MAP_A['start_x'], NPC_MAP_A['start_y'], NPC_MAP_A['icon'], NPC_MAP_A['color'], block_movement=True, talk_to_player=choice(TALK['npc'])),
-    Entity(GATE_MAP_A_1['start_x'], GATE_MAP_A_1['start_y'], GATE['icon'], GATE['color'], is_gate=True, block_movement=True, talk_to_player=choice(TALK['gate']), gate_to='next_map'),
-    Entity(GATE_MAP_A_2['start_x'], GATE_MAP_A_2['start_y'], GATE['icon_2'], GATE['color'], is_gate=True, block_movement=True, talk_to_player=choice(TALK['gate']), gate_to='next_map'),
+    Entity(NPC_MAP_A['start_x'], NPC_MAP_A['start_y'], NPC_MAP_A['icon'], NPC_MAP_A['color'],
+           block_movement=True, talk_to_player=choice(TALK['npc'])),
+    Entity(GATE_MAP_A_1['start_x'], GATE_MAP_A_1['start_y'], GATE['icon'], GATE['color'], is_gate=True,
+           block_movement=True, talk_to_player=choice(TALK['gate']), gate_to='next_map'),
+    Entity(GATE_MAP_A_2['start_x'], GATE_MAP_A_2['start_y'], GATE['icon_2'], GATE['color'], is_gate=True,
+           block_movement=True, talk_to_player=choice(TALK['gate']), gate_to='next_map'),
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_A_CHAMBERS["room_1"]),
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_A_CHAMBERS["room_1"]),
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_A_CHAMBERS["room_2"]),
@@ -115,7 +121,7 @@ MAP_A_ENTITIES = {
     Item("weapon", "double-edged axe", bonus=5).put_on_map(MAP_A_CHAMBERS["room_7"]),
     Item("food", "apple", bonus=20).put_on_map(MAP_A_CHAMBERS["room_6"]),
     Item("food", "bread", bonus=50).put_on_map(MAP_A_CHAMBERS["room_4"]),
-    Item("special", "silver key", bonus=1).put_on_map(MAP_A_CHAMBERS["room_6"])
+    # Item("special", "silver key", bonus=1).put_on_map(MAP_A_CHAMBERS["room_6"])
 }
 
 ##### MAP_B ########
@@ -175,9 +181,12 @@ MAP_B_CHAMBERS = {
 }
 
 MAP_B_ENTITIES = {
-    Entity(NPC_MAP_B['start_x'], NPC_MAP_B['start_y'], NPC_MAP_B['icon'], NPC_MAP_B['color'], block_movement=True, talk_to_player=choice(TALK['npc'])),
-    Entity(GATE_MAP_B_1['start_x'], GATE_MAP_B_1['start_y'], GATE['icon'], GATE['color'], is_gate=True, block_movement=True, talk_to_player=choice(TALK['gate']), gate_to='next_map'),
-    Entity(GATE_MAP_B_2['start_x'], GATE_MAP_B_2['start_y'], GATE['icon_2'], GATE['color'], is_gate=True, block_movement=True, talk_to_player=choice(TALK['gate']), gate_to='next_map'),
+    Entity(NPC_MAP_B['start_x'], NPC_MAP_B['start_y'], NPC_MAP_B['icon'], NPC_MAP_B['color'],
+           block_movement=True, talk_to_player=choice(TALK['npc'])),
+    Entity(GATE_MAP_B_1['start_x'], GATE_MAP_B_1['start_y'], GATE['icon'], GATE['color'], is_gate=True,
+           block_movement=True, talk_to_player=choice(TALK['gate']), gate_to='next_map'),
+    Entity(GATE_MAP_B_2['start_x'], GATE_MAP_B_2['start_y'], GATE['icon_2'], GATE['color'], is_gate=True,
+           block_movement=True, talk_to_player=choice(TALK['gate']), gate_to='next_map'),
     Entity(0, 35, GATE['icon_3'], GATE['color'], is_gate=True, block_movement=True, talk_to_player=choice(TALK['gate']), gate_to='prev_map'),
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_B_CHAMBERS["room_1"]),
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_B_CHAMBERS["room_6"]),
@@ -185,26 +194,26 @@ MAP_B_ENTITIES = {
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_B_CHAMBERS["room_9"]),
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_B_CHAMBERS["room_4"]),
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_B_CHAMBERS["dungeon_10"]),
-    Monster("troll", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['troll'])).put_on_map(MAP_B_CHAMBERS["room_10"]),
-    Monster("troll", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['troll'])).put_on_map(MAP_B_CHAMBERS["room_8"]),
+    Monster("witch", item=choice(LIST_OF_ITEMS_B), talk_to_player=choice(TALK['witch'])).put_on_map(MAP_B_CHAMBERS["room_10"]),
+    Monster("witch", item=choice(LIST_OF_ITEMS_B), talk_to_player=choice(TALK['witch'])).put_on_map(MAP_B_CHAMBERS["room_8"]),
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_B_CHAMBERS["room_8"]),
     Monster("troll", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['troll'])).put_on_map(MAP_B_CHAMBERS["room_11"]),
-    Monster("troll", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['troll'])).put_on_map(MAP_B_CHAMBERS["room_7"]),
+    Monster("witch", item=choice(LIST_OF_ITEMS_B), talk_to_player=choice(TALK['witch'])).put_on_map(MAP_B_CHAMBERS["room_7"]),
     Monster("troll", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['troll'])).put_on_map(MAP_B_CHAMBERS["room_3"]),
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_B_CHAMBERS["room_3"]),
-    Monster("troll", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['troll'])).put_on_map(MAP_B_CHAMBERS["room_5"]),
+    Monster("witch", item=choice(LIST_OF_ITEMS_B), talk_to_player=choice(TALK['witch'])).put_on_map(MAP_B_CHAMBERS["room_5"]),
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_B_CHAMBERS["room_5"]),
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_B_CHAMBERS["room_2"]),
-    Monster("troll", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['troll'])).put_on_map(MAP_B_CHAMBERS["room_12"]),
+    Monster("witch", item=choice(LIST_OF_ITEMS_B), talk_to_player=choice(TALK['witch'])).put_on_map(MAP_B_CHAMBERS["room_12"]),
     Monster("troll", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['troll'])).put_on_map(MAP_B_CHAMBERS["room_7"]),
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_B_CHAMBERS["room_12"]),
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_B_CHAMBERS["room_9"]),
-    Monster("dragon", item=Item("special", "golden key"), talk_to_player=choice(TALK['dragon'])).put_on_map(MAP_B_CHAMBERS["room_2"]),
-    Item("armor", "bronze armor", bonus=5).put_on_map(MAP_B_CHAMBERS["room_3"]),
-    Item("weapon", "double-edged axe", bonus=5).put_on_map(MAP_B_CHAMBERS["room_7"]),
+    Monster("dragon2", item=Item("special", "golden key"), talk_to_player=choice(TALK['dragon'])).put_on_map(MAP_B_CHAMBERS["room_2"]),
+    Item("armor", "iron armor", bonus=12).put_on_map(MAP_B_CHAMBERS["room_3"]),
+    Item("weapon", "dragon slayer", bonus=12).put_on_map(MAP_B_CHAMBERS["room_7"]),
     Item("food", "apple", bonus=20).put_on_map(MAP_B_CHAMBERS["room_6"]),
     Item("food", "bread", bonus=50).put_on_map(MAP_B_CHAMBERS["room_4"]),
-    Item("special", "rusty key").put_on_map(MAP_B_CHAMBERS["room_1"]),
+    # Item("special", "rusty key").put_on_map(MAP_B_CHAMBERS["room_1"]),
 }
 
 ##### MAP_C ########
@@ -236,29 +245,30 @@ MAP_C_CHAMBERS = {
 }
 
 MAP_C_ENTITIES = {
-    Entity(NPC_MAP_C['start_x'], NPC_MAP_C['start_y'], NPC_MAP_C['icon'], NPC_MAP_C['color'], block_movement=True, talk_to_player=choice(TALK['npc_map_C'])),
-    Entity(0, 35, GATE['icon_2'], GATE['color'], is_gate=True, block_movement=True, talk_to_player=choice(TALK['gate']), gate_to='prev_map'),
-    Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_C_CHAMBERS["room_1"]),
-    Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_C_CHAMBERS["room_1"]),
+    Entity(NPC_MAP_C['start_x'], NPC_MAP_C['start_y'], NPC_MAP_C['icon'], NPC_MAP_C['color'],
+           block_movement=True, talk_to_player=choice(TALK['npc_map_C'])),
+    Entity(0, 35, GATE['icon_2'], GATE['color'], is_gate=True,
+           block_movement=True, talk_to_player=choice(TALK['gate']), gate_to='prev_map'),
+    Monster("witch", item=choice(LIST_OF_ITEMS_B), talk_to_player=choice(TALK['witch'])).put_on_map(MAP_C_CHAMBERS["room_1"]),
+    Monster("behemoth", item=choice(LIST_OF_ITEMS_C), talk_to_player=choice(TALK['behemoth'])).put_on_map(MAP_C_CHAMBERS["room_1"]),
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_C_CHAMBERS["room_2"]),
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_C_CHAMBERS["room_2"]),
+    Monster("behemoth", item=choice(LIST_OF_ITEMS_C), talk_to_player=choice(TALK['behemoth'])).put_on_map(MAP_C_CHAMBERS["room_3"]),
     Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_C_CHAMBERS["room_3"]),
-    Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_C_CHAMBERS["room_3"]),
-    Monster("troll", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['troll'])).put_on_map(MAP_C_CHAMBERS["room_4"]),
-    Monster("troll", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['troll'])).put_on_map(MAP_C_CHAMBERS["room_4"]),
-    Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_C_CHAMBERS["room_5"]),
-    Monster("troll", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['troll'])).put_on_map(MAP_C_CHAMBERS["room_5"]),
-    Monster("troll", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['troll'])).put_on_map(MAP_C_CHAMBERS["room_6"]),
-    Monster("troll", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['troll'])).put_on_map(MAP_C_CHAMBERS["room_6"]),
-    Monster("orc", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['orc'])).put_on_map(MAP_C_CHAMBERS["room_7"]),
+    Monster("witch", item=choice(LIST_OF_ITEMS_B), talk_to_player=choice(TALK['witch'])).put_on_map(MAP_C_CHAMBERS["room_4"]),
+    Monster("witch", item=choice(LIST_OF_ITEMS_B), talk_to_player=choice(TALK['witch'])).put_on_map(MAP_C_CHAMBERS["room_4"]),
+    Monster("behemoth", item=choice(LIST_OF_ITEMS_C), talk_to_player=choice(TALK['behemoth'])).put_on_map(MAP_C_CHAMBERS["room_5"]),
+    Monster("witch", item=choice(LIST_OF_ITEMS_B), talk_to_player=choice(TALK['witch'])).put_on_map(MAP_C_CHAMBERS["room_5"]),
+    Monster("witch", item=choice(LIST_OF_ITEMS_B), talk_to_player=choice(TALK['witch'])).put_on_map(MAP_C_CHAMBERS["room_6"]),
+    Monster("witch", item=choice(LIST_OF_ITEMS_B), talk_to_player=choice(TALK['witch'])).put_on_map(MAP_C_CHAMBERS["room_6"]),
+    Monster("behemoth", item=choice(LIST_OF_ITEMS_C), talk_to_player=choice(TALK['behemoth'])).put_on_map(MAP_C_CHAMBERS["room_7"]),
     Monster("troll", item=choice(LIST_OF_ITEMS), talk_to_player=choice(TALK['troll'])).put_on_map(MAP_C_CHAMBERS["room_7"]),
     Monster(x=49, y=20, type="dragon_boss", item=Item("food", "meet", bonus=30), talk_to_player=choice(TALK['orc'])),
 
-    Item("armor", "bronze armor", bonus=5).put_on_map(MAP_C_CHAMBERS["room_1"]),
-    Item("weapon", "double-edged axe", bonus=5).put_on_map(MAP_C_CHAMBERS["room_1"]),
+    Item("armor", "silver armor", bonus=15).put_on_map(MAP_C_CHAMBERS["room_1"]),
+    Item("weapon", "magic sword", bonus=20).put_on_map(MAP_C_CHAMBERS["room_1"]),
     Item("food", "apple", bonus=20).put_on_map(MAP_C_CHAMBERS["room_2"]),
     Item("food", "bread", bonus=50).put_on_map(MAP_C_CHAMBERS["room_3"]),
-
 }
 
 MAP_C = GameMap(MAP_C_START_COORDS, MAP_C_FINISH_COORDS, MAP_C_CHAMBERS, MAP_C_ENTITIES).generate_map()
